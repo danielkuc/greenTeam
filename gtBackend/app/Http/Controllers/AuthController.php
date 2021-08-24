@@ -20,15 +20,25 @@ class AuthController extends Controller
         ]);
         // check if validation passed, if not throw validator error and 422 http status.
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json($validator->errors(),422);
+        } 
+        // if validation passed check if user exists and log in
+        else if (Auth::attempt($validator->validated())) {
+            return response()->json([
+                'message' => 'User Logged in',
+                'user' => Auth::user()
+            ],200);        
         }
-        // authenticate user using Auth.
-        Auth::attempt($validator->validated());
-        // return user and 200 http status.
+        // if both above conditions fail, return error
+        return response()->json('Invalid credentials');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
         return response()->json([
-            'message' => 'User successfully authenticated',
-            'user' => Auth::user()
-        ], 200);           
-        
+            'message' => 'User successfully signed out'
+        ]);
     }
 }
