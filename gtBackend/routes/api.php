@@ -25,3 +25,4 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/register', [UserController::class, 'store']);
+Route::delete('/remove/{id}', [UserController::class, 'destroy']);

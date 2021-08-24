@@ -25,7 +25,7 @@ class AuthController extends Controller
         // if validation passed check if user exists and log in
         else if (Auth::attempt($validator->validated())) {
             return response()->json([
-                'message' => 'User Logged in',
+                'message' => 'User successfully signed in',
                 'user' => Auth::user()
             ],200);        
         }
