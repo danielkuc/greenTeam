@@ -25,6 +25,6 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/search/{name}', [UserController::class, 'show']);
-Route::put('/users/update/{id}', [UserController::class, 'update']);
+Route::put('users/update/{id}', [UserController::class, 'update']);
 Route::post('/register', [UserController::class, 'store']);
 Route::delete('/remove/{id}', [UserController::class, 'destroy']);

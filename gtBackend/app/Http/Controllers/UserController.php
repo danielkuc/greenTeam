@@ -76,38 +76,32 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        // limit accepted input to only necessary fields.
-        $input = $request->only(['first_name', 'last_name', 'email', 'occupation', 'password', 'password_confirmation', 'remember_token']);
-        // validate request
-        $validator = Validator::make($input, [
-            'first_name' => 'required|string|between:3,100',
-            'last_name' => 'required|string|between:3,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'occupation' => 'required|string|between:3,100',
-            'password' => 'required|string|confirmed|min:6',
-            'password_confirmation' => 'required|string|min:6',
-        ]);        
-            
-        // check if validation passed, if not throw a validator error and return status 400.
-        if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
-        }            
-        
-        $updated = User::where('id', $id)->update((array_merge(
-        $validator->validated(),
-        ['password' => bcrypt($request->password)]
-        )));
+    {   
+        $input = $request->only(['first_name', 'last_name', 'email', 'occupation']);
+
+        $validator = Validator::make($input,[
+            'first_name' => 'string|between:3,100',
+            'last_name' => 'string|between:3,100',
+            'email' => 'string|email|max:100|unique:users',
+            'occupation' => 'string|between:3,100'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $updated = User::where('id', $id)->update($validator->validated());
 
         if (!$updated) {
-            return response()->json([
-                'message' => 'Update failed'
-            ]);
-        } else {
-            return response()->json([
-                'success' => 'Updated'
+            return response()-json([
+                'message' => 'Failed to update'
             ]);
         }
+
+        return response()-json([
+            'message' => 'Updated successfully'
+        ]);
     }
 
     /**
@@ -118,6 +112,18 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return User::destroy($id);
+        $deleted = User::destroy($id);
+
+        if (!$deleted) {
+            return response->json([
+                'message' => 'Failed to delete'
+            ]);
+        } else {
+            return response->json([
+                'message' => 'Successfully deleted'
+            ]);
+        }
+        
+
     }
 }
