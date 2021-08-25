@@ -64,7 +64,8 @@ class UserController extends Controller
      */
     public function show($name)
     {
-        return User::where('first_name', 'like', '%'.$name.'%')->get();
+        // query DB and return users which first_name or last_name contains $name
+        return User::where('first_name', 'like', '%'.$name.'%')->orWhere('last_name', 'like', '%'.$name.'%')->get();
     }
 
     /**
@@ -76,7 +77,37 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // limit accepted input to only necessary fields.
+        $input = $request->only(['first_name', 'last_name', 'email', 'occupation', 'password', 'password_confirmation', 'remember_token']);
+        // validate request
+        $validator = Validator::make($input, [
+            'first_name' => 'required|string|between:3,100',
+            'last_name' => 'required|string|between:3,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'occupation' => 'required|string|between:3,100',
+            'password' => 'required|string|confirmed|min:6',
+            'password_confirmation' => 'required|string|min:6',
+        ]);        
+            
+        // check if validation passed, if not throw a validator error and return status 400.
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }            
+        
+        $updated = User::where('id', $id)->update((array_merge(
+        $validator->validated(),
+        ['password' => bcrypt($request->password)]
+        )));
+
+        if (!$updated) {
+            return response()->json([
+                'message' => 'Update failed'
+            ]);
+        } else {
+            return response()->json([
+                'success' => 'Updated'
+            ]);
+        }
     }
 
     /**
