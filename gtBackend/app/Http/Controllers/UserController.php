@@ -39,6 +39,7 @@ class UserController extends Controller
             'occupation' => 'required|string|between:3,100',
             'password' => 'required|string|confirmed|min:6',
             'password_confirmation' => 'required|string|min:6',
+            'remember_token' => 'boolean',
         ]);
         // check if validation passed, if not throw a validator error and return status 400.
         if($validator->fails()){

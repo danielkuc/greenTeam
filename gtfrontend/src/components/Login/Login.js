@@ -1,12 +1,12 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
+// import { useHistory } from 'react-router-dom';
 import StyledLogin from './Login.styled';
 import axios from 'axios';
 
 const Login = () => {
   const [userData, setUserData] = useState({email:'',password:''});
-  const history = useHistory();
+  // const history = useHistory();
 
   const handleChange = (e) => {
     setUserData((prevState) => {
@@ -21,23 +21,18 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8000/api/login", userData)
-      .then(response => {
-        // localStorage.setItem('user-info', JSON.stringify(response.data));
-        // history.push('/add');
+      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(response => {
         console.log(response);
-      });
+        axios.post("http://localhost:8000/api/login", userData)
+        .then(response => {
+          console.log(response);
+        })
+      })
     } catch (error) {
       console.log(error);
-    };
-  }
+    }
 
-  // useEffect(()=>{
-  //   if(localStorage.getItem('user-info')) 
-  //   {
-  //     history.push('/add');
-  //   }
-  // },[]);
+  }
 
   return (
     <StyledLogin>
@@ -45,12 +40,12 @@ const Login = () => {
       <div className="container m-auto col-sm-4">
         <form action="">
           <div className="form-group">
-            <label>Password</label>
-            <input type="password" name="password" onChange={e=>handleChange(e)} className="form-control my-2 "/>
-          </div>
-          <div className="form-group">
             <label>Email</label>
             <input type="email" name="email" onChange={e=>handleChange(e)} className="form-control my-2 "/>
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input type="password" name="password" onChange={e=>handleChange(e)} className="form-control my-2 "/>
           </div>
           <button type="submit" className="btn btn-primary" onClick={login}>Log In</button>
         </form>
