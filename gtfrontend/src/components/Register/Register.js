@@ -15,7 +15,7 @@ const Register = () => {
     occupation:'',
     password:'',
     password_confirmation:'',
-    remember_token:''  
+    remember_token: false  
   });
   
   const handleChange = (e) => {
@@ -61,7 +61,7 @@ const Register = () => {
           </div>
           <div className="form-group">
             <label>Occupation</label>
-              <select name="occupation" id="occupation">
+              <select name="occupation" id="occupation" onChange={e=>handleChange(e)}>
                 <option value="OA / Support">OA / Support</option>
                 <option value="Dispensing Optician">Dispensing Optician</option>
                 <option value="Manager">Manager</option>
