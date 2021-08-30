@@ -1,13 +1,28 @@
 import styled from 'styled-components';
 
 const StyledRegister = styled.div`
-  background-color: #6fc77a ;
-  border-radius:0.5rem;
+  background-color: #defcea ;
+  height: 100vh ;
+
+  .wrapper{
+    background-color: #056311 ;
+    border-radius:0.2rem;
+    color: white;
+  }
+
   form{
     font-size: large;
   }
-  * .form-group label {
-    // padding: 0.5rem 0;
+  form div{
+    padding:0.2rem 0;
+  }
+
+  input, select{
+    border-radius:20px;
+  }
+
+  button {
+    border-radius:20px;
   }
 `
 
