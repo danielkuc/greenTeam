@@ -1,69 +1,92 @@
-import React from 'react'
-import StyledRegister from './Register.styled'
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
-
+import React from 'react';
+import { useFormik } from 'formik';
+import StyledRegister from './Register.styled';
 
 
 const Register = () => {
-
-  const history = useHistory();
-  // state of the component
-  const [userData, setUserData] = useState({
-    first_name:'',
-    last_name:'',
-    email:'',
-    occupation:'Choose your occupation',
-    password:'',
-    password_confirmation:'',
-    remember_token: false  
-  });
-  // change handler
-  const handleChange = (e) => {
-    setUserData((prevState) => {
-      return {
-        ...prevState,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };  
-  // submit button function, sends POST request to backend with state attached
-  const signUp = async (e) => {
-    e.preventDefault();
-    console.log(userData);
-    try {
-      await axios.post("http://localhost:8000/api/register", userData)
-      .then(response => {
-        console.log(response);
-      });
-    } catch (error) {
-      console.log(error);
-    };
+  // validation function - must return an object which
+  // keys must be symmetrical to values/initialValues
+  const validate = values =>{
+    const errors = {};
+    if (!values.first_name) {
+      errors.first_name = 'Required';
+    } else if (values.first_name.length < 3) {
+      errors.first_name = 'Must be at least 3 characters'
+    }
+    return errors;
   };
+
+
+  // initializing formik: passing state and submit.
+  const formik = useFormik({
+    initialValues:{
+      first_name:'',
+      last_name:'',
+      email:'',
+      occupation:'Choose your occupation',
+      password:'',
+      password_confirmation:''
+    },
+    validate,
+    onSubmit: values=> {
+      console.log(JSON.stringify(values,null,2));
+    }
+  });
+
+
 
   return (
     <StyledRegister className="pt-3">
       <div className="wrapper m-auto col-sm-6 p-4 ">
         <div className="container m-auto">
         <h1 className="pb-3">Register</h1>
-          <form action="">
+          <form onSubmit={formik.handleSubmit}>
+            
             <div className="form-group">
-              <label>First Name:</label>
-              <input type="text" name="first_name" onChange={e=>handleChange(e)} placeholder="Gareth" className="form-control my-2 "/>
+              <label htmlFor="first_name">First Name:</label>
+              <input 
+                type="text" 
+                name="first_name"
+                id="first_name"
+                onChange={formik.handleChange}
+                value={formik.values.first_name} 
+                className="form-control my-2 "
+              />
+              {formik.errors.first_name ? <div>{formik.errors.first_name}</div> : null}
             </div>
+            
             <div className="form-group">
-              <label>Last Name</label>
-              <input type="text" name="last_name" onChange={e=>handleChange(e)} placeholder="Webster" className="form-control my-2 "/>
+              <label htmlFor="last_name">Last Name</label>
+              <input 
+                type="text" 
+                name="last_name"
+                id="last_name"
+                onChange={formik.handleChange}
+                value={formik.values.last_name} 
+                className="form-control my-2 "/>
             </div>
+            
             <div className="form-group">
-              <label>Email</label>
-              <input type="email" name="email" onChange={e=>handleChange(e)} placeholder="gareth@webster.com" className="form-control my-2 "/>
+              <label htmlFor="email">Email</label>
+              <input 
+                type="email" 
+                name="email"
+                id="email"
+                onChange={formik.handleChange}
+                value={formik.values.email} 
+                className="form-control my-2 "/>
             </div>
+            
             <div className="form-group">
-              <label>Occupation</label>
-                <select className="form-select" name="occupation" defaultValue={userData.occupation} onChange={e=>handleChange(e)}>
-                  <option value={userData.occupation} disabled hidden >Choose your occupation</option>
+              <label htmlFor="occupation">Occupation</label>
+                <select 
+                  name="occupation" 
+                  id="occupation" 
+                  onChange={formik.handleChange} 
+                  value={formik.values.occupation}
+                  className="form-select"
+                  >
+                  <option disabled hidden >Choose your occupation</option>
                   <option value="Oa / Support">OA / Support</option>
                   <option value="Dispensing Optician">Dispensing Optician</option>
                   <option value="Manager">Manager</option>
@@ -72,15 +95,30 @@ const Register = () => {
                   <option value="HC assistant">HC assistant</option>
                 </select> 
             </div>
+
             <div className="form-group">
-              <label>Password</label>
-              <input type="password" name="password" onChange={e=>handleChange(e)} className="form-control my-2 "/>
+              <label htmlFor="password">Password</label>
+              <input 
+                type="password" 
+                name="password" 
+                id="password"
+                onChange={formik.handleChange}
+                value={formik.values.password}
+                className="form-control my-2 "/>
             </div>
+            
             <div className="form-group">
-              <label>Confirm Password</label>
-              <input type="password" name="password_confirmation" onChange={e=>handleChange(e)} className="form-control my-2 "/>
+              <label htmlFor="password_confirmation">Confirm Password</label>
+              <input 
+                type="password" 
+                name="password_confirmation" 
+                id="password_confirmation"
+                onChange={formik.handleChange}
+                value={formik.values.password_confirmation}
+                className="form-control my-2 "/>
             </div>
-            <button type="submit" onClick={signUp} className="btn btn-warning px-4 py-1 w-100">Register</button>
+            
+            <button type="submit" className="btn btn-warning px-4 py-1 w-100">Register</button>
           </form>
         </div>
       </div>
@@ -88,4 +126,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Register;
