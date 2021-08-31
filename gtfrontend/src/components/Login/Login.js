@@ -1,53 +1,59 @@
-import React from 'react';
-import { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import React from 'react'
 import StyledLogin from './Login.styled';
-import axios from 'axios';
+import { useFormik } from "formik";
 
 const Login = () => {
-  const [userData, setUserData] = useState({email:'',password:''});
-  // const history = useHistory();
-
-  const handleChange = (e) => {
-    setUserData((prevState) => {
-      return {
-        ...prevState,
-        [e.target.name]: e.target.value,
-      };
-    });
+  const validate = values=> {
+    const errors = {};
+    if (!values.password) {
+      errors.password = 'Password required';
+    } else if (values.password.length < 3) {
+      errors.password = 'Must be at least 3 characters'
+    }
+    return errors;
   };
 
-  const login = async (e) => {
-    e.preventDefault();
 
-    try {
-      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(response => {
-        console.log(response);
-        axios.post("http://localhost:8000/api/login", userData)
-        .then(response => {
-          console.log(response);
-        })
-      })
-    } catch (error) {
-      console.log(error);
+  const formik = useFormik({
+    initialValues:{
+      email:'',
+      password: ''
+    },
+    onSubmit: values => {
+      console.log(JSON.stringify(values, null, 2));
     }
-
-  }
-
+  });
   return (
     <StyledLogin>
       <h1 className="pb-3">Login</h1>
       <div className="container m-auto col-sm-4">
-        <form action="">
+        <form onSubmit={formik.handleSubmit}>
+
           <div className="form-group">
-            <label>Email</label>
-            <input type="email" name="email" onChange={e=>handleChange(e)} className="form-control my-2 "/>
+            <label htmlFor="email">Email</label>
+            <input 
+              type="email" 
+              name="email" 
+              id="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              className="form-control my-2 "
+            />
           </div>
+          
           <div className="form-group">
-            <label>Password</label>
-            <input type="password" name="password" onChange={e=>handleChange(e)} className="form-control my-2 "/>
+            <label htmlFor="password">Password</label>
+            <input 
+              type="password" 
+              name="password" 
+              id="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              className="form-control my-2 "
+            />
           </div>
-          <button type="submit" className="btn btn-primary" onClick={login}>Log In</button>
+          
+          <button type="submit" className="btn btn-primary">Log In</button>
         </form>
       </div>
     </StyledLogin>
