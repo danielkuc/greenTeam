@@ -1,10 +1,17 @@
 import React from 'react'
 import StyledLogin from './Login.styled';
 import { useFormik } from "formik";
+import axios from 'axios';
 
 const Login = () => {
   const validate = values=> {
     const errors = {};
+    if (!values.email) {
+      errors.email = 'Email required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+
     if (!values.password) {
       errors.password = 'Password required';
     } else if (values.password.length < 3) {
@@ -19,8 +26,21 @@ const Login = () => {
       email:'',
       password: ''
     },
-    onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2));
+    validate,
+    onSubmit: async values => {
+      console.log(values);
+
+      try {
+        await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(response => {
+          console.log(response);
+          axios.post("http://localhost:8000/api/login", values)
+          .then(response => {
+            console.log(response);
+          })
+        })
+      } catch (error) {
+        console.log(error);
+      }
     }
   });
   return (
