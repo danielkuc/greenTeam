@@ -1,32 +1,23 @@
 import React from 'react'
 import StyledLogin from './Login.styled';
 import { useFormik } from "formik";
+// Yup - JS schema builder for validation and value parsing
+import * as Yup from 'yup';
 import axios from 'axios';
 
 const Login = () => {
-  const validate = values=> {
-    const errors = {};
-    if (!values.email) {
-      errors.email = 'Email required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = 'Invalid email address';
-    }
-
-    if (!values.password) {
-      errors.password = 'Password required';
-    } else if (values.password.length < 3) {
-      errors.password = 'Must be at least 3 characters'
-    }
-    return errors;
-  };
-
-
+  // initializing formik: passing state and submit.
   const formik = useFormik({
     initialValues:{
       email:'',
       password: ''
     },
-    validate,
+    // validation done by Yup and passed to formik as an object
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Email required'),
+      password: Yup.string().required('Password required'),
+    }),
+    // event fired off on submit of a form
     onSubmit: async values => {
       console.log(values);
 
@@ -43,6 +34,7 @@ const Login = () => {
       }
     }
   });
+
   return (
     <StyledLogin>
       <h1 className="pb-3">Login</h1>
@@ -53,24 +45,23 @@ const Login = () => {
             <label htmlFor="email">Email</label>
             <input 
               type="email" 
-              name="email" 
               id="email"
-              onChange={formik.handleChange}
-              value={formik.values.email}
+                // shorthand for onBlur, onChange etc, spreads 
+                {...formik.getFieldProps('email')}
               className="form-control my-2 "
             />
+            {formik.touched.email && formik.errors.email ? (<div className="error">{formik.errors.email}</div>) : null}
           </div>
           
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input 
               type="password" 
-              name="password" 
               id="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
+              {...formik.getFieldProps('password')}
               className="form-control my-2 "
             />
+            {formik.touched.password && formik.errors.password ? (<div className="error">{formik.errors.password}</div>) : null}
           </div>
           
           <button type="submit" className="btn btn-primary">Log In</button>
