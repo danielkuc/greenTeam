@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   // initializing formik: passing state and submit.
@@ -37,8 +38,9 @@ const Login = () => {
 
   return (
     <StyledLogin>
-      <h1 className="pb-3">Login</h1>
       <div className="container m-auto col-sm-4">
+      <h1 className="pb-3">Login</h1>
+      <p>or <Link to="/register" label="Register">Register</Link>.</p>
         <form onSubmit={formik.handleSubmit}>
 
           <div className="form-group">

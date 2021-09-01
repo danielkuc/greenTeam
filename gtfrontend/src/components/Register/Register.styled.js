@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 
 const StyledRegister = styled.div`
-  background-color: #defcea ;
-  height: 100% ;
-
   .error{
-    color:red;
+    color: #f6ff00 ;
   }
   .wrapper{
+    font-family:"Lato";
+    font-weight: 300 ;
     background-color: #056311 ;
     border-radius:0.2rem;
     color: white;
+  }
+
+  option{
+    font-family:"Lato";
+    font-weight: 300 ;
   }
 
   form{

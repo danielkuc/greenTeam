@@ -5,6 +5,7 @@ import StyledRegister from './Register.styled';
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   // initializing formik: passing state and submit.
@@ -22,20 +23,19 @@ const Register = () => {
       first_name: Yup.string().required('First name required'),
       last_name: Yup.string().required('Last name required'),
       email: Yup.string().email('Invalid email address').required('Email required'),
-      password: Yup.string().required('Password required'),
-      password_confirmation: Yup.string().required('Password confirmation required'),
+      password: Yup.string().required('Password required').matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+      "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
+      password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
     // event fired off on submit of a form
     onSubmit: async values => {
       console.log(JSON.stringify(values,null,2));
-      console.log(...formik.getFieldProps('first_name'));
-
       try {
-        await axios.post('http://localhost:8000/api/login', values).then(response => {
-          console.log(response);
+        await axios.post('http://localhost:8000/api/register', values).then(response => {
+          return response.json();
         });
       } catch (error) {
-        console.log(error);
+        throw new Error("HTTP status " + error.status);
       }
     }
   });
@@ -43,10 +43,11 @@ const Register = () => {
 
 
   return (
-    <StyledRegister className="pt-3">
+    <StyledRegister className="pt-3 mb-3">
       <div className="wrapper m-auto col-sm-6 p-4 ">
-        <div className="container m-auto">
-        <h1 className="pb-3">Register</h1>
+        <div className="container">
+        <h2 className="pb-3">Register</h2>
+        <p>or <Link to="/login" label="Login">Sign In</Link> if you already have an account.</p>
           <form onSubmit={formik.handleSubmit}>
             
             <div className="form-group">
@@ -56,7 +57,7 @@ const Register = () => {
                 id="first_name"
                 // shorthand for onBlur, onChange etc, spreads 
                 {...formik.getFieldProps('first_name')}
-                className="form-control my-2 "
+                className="form-control my-2"
               />
               {formik.touched.first_name && formik.errors.first_name ? (<div className="error">{formik.errors.first_name}</div>) : null}
             </div>
