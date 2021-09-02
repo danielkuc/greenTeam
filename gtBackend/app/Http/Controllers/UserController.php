@@ -43,7 +43,7 @@ class UserController extends Controller
         ]);
         // check if validation passed, if not throw a validator error and return status 400.
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors()->toJson(), 403);
         }
         // create new User, merge validated input and password encryption.
         $user = User::create(array_merge(

@@ -27,24 +27,25 @@ const Register = () => {
     password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
+  const handleSubmit = async (values) => {
+    try {
+      await axios.post('http://localhost:8000/api/register', values).then(response => {
+        return response.json();
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        formik.setFieldError('email', 'Email must be unique');
+      }
+    }    
+  };
+
 
 
   // initializing formik: passing state and submit.
   const formik = useFormik({
     initialValues:data,
     validationSchema:validator ,
-    onSubmit: async values => {
-      console.log(JSON.stringify(values,null,2));
-      console.log(formik);
-      console.log(Yup);
-      try {
-        await axios.post('http://localhost:8000/api/register', values).then(response => {
-          return response.json();
-        });
-      } catch (error) {
-        throw new Error("HTTP status " + error.status);
-      }
-    }
+    onSubmit: handleSubmit
   });
 
 
