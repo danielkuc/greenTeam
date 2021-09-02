@@ -8,28 +8,35 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
+  // state and initial values for formik
+  const data = {
+    first_name:'',
+    last_name:'',
+    email:'',
+    occupation:'Choose your occupation',
+    password:'',
+    password_confirmation:''
+  };
+  // Yup validation rules
+  const validator =  Yup.object({
+    first_name: Yup.string().required('First name required'),
+    last_name: Yup.string().required('Last name required'),
+    email: Yup.string().email('Invalid email address').required('Email required'),
+    password: Yup.string().required('Password required').matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+    "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
+    password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
+  });
+
+
+
   // initializing formik: passing state and submit.
   const formik = useFormik({
-    initialValues:{
-      first_name:'',
-      last_name:'',
-      email:'',
-      occupation:'Choose your occupation',
-      password:'',
-      password_confirmation:''
-    },
-    // validation done by Yup and passed to formik as an object
-    validationSchema: Yup.object({
-      first_name: Yup.string().required('First name required'),
-      last_name: Yup.string().required('Last name required'),
-      email: Yup.string().email('Invalid email address').required('Email required'),
-      password: Yup.string().required('Password required').matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-      "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
-      password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
-    }),
-    // event fired off on submit of a form
+    initialValues:data,
+    validationSchema:validator ,
     onSubmit: async values => {
       console.log(JSON.stringify(values,null,2));
+      console.log(formik);
+      console.log(Yup);
       try {
         await axios.post('http://localhost:8000/api/register', values).then(response => {
           return response.json();
