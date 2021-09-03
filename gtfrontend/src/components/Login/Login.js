@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Login = ({state, setState}) => {
+const Login = ({ setState }) => {
   const data = {
     email:'',
     password: ''
@@ -20,11 +20,10 @@ const Login = ({state, setState}) => {
   const handleSubmit = async (values) => {
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (response) => {
-        console.log(response);
+        // console.log(response);
         await axios.post("http://localhost:8000/api/login", values).then(response => {
         const {user} = response.data;
         setState(user);
-        console.log(user);
       })
       });
     } catch (error) {
