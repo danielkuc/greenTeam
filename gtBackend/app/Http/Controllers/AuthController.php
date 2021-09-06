@@ -30,7 +30,10 @@ class AuthController extends Controller
             ],200);        
         }
         // if both above conditions fail, return error
-        return response()->json('Invalid credentials');
+        return response()->json([
+            'message' => 'Invalid credentials'
+        
+        ],404);
     }
 
     public function logout()

@@ -4,13 +4,15 @@ import { useFormik } from "formik";
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Login = ({ setState }) => {
   const data = {
     email:'',
     password: ''
   };
+
+  let history = useHistory();
 
   const validator = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email required'),
@@ -20,18 +22,23 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (response) => {
-        // console.log(response);
         await axios.post("http://localhost:8000/api/login", values).then(response => {
         const {user} = response.data;
-        setState(user);
+        setState(prevState => ({
+          isLoggedIn: true,
+          details: user
+        }));
+        history.push("/");
       })
       });
     } catch (error) {
-      if (error.response && error.response.status === 422) {
-        formik.setFieldError('password', 'Invalid credentials')
+      const status = error.response;
+      if (status) {
+        formik.setFieldError('password', `Invalid credentials or user not found`)
       }
     }
   };
+  // 7430164417
 
   // initializing formik: passing state and submit.
   const formik = useFormik({
