@@ -18,9 +18,6 @@ function App() {
         <Route exact path="/login" render={(props) => <Login {...props} setState={setUser} />} />
         <Route exact path="/register" component={Register} />
       </Switch>
-      <button className="btn btn-primary" onClick={() => {
-        console.log(user)
-        }}>State</button>
     </div>
   );
 }

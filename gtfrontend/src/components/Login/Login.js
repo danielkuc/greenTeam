@@ -50,38 +50,62 @@ const Login = ({ setState }) => {
   });
 
   return (
-    <StyledLogin className="">
-      <div className="wrapper m-auto col-sm-6 p-4">
-      <div className="container">
-      <h1 className="pb-3">Login</h1>
-      <p>or <Link to="/register" label="Register">Register</Link>.</p>
-        <form onSubmit={formik.handleSubmit}>
+    <StyledLogin className="container">
+      <div className="d-flex justify-content-center h-100">
+        <div className="card">
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input 
-              type="email" 
-              id="email"
-                // shorthand for onBlur, onChange etc, spreads 
-                {...formik.getFieldProps('email')}
-              className="form-control my-2 "
-            />
-            {formik.touched.email && formik.errors.email ? (<div className="error">{formik.errors.email}</div>) : null}
+          <div className="card-header">
+            <p className="h3">Sign In</p>
           </div>
-          
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input 
-              type="password" 
-              id="password"
-              {...formik.getFieldProps('password')}
-              className="form-control my-2 "
-            />
-            {formik.touched.password && formik.errors.password ? (<p className="error">{formik.errors.password}</p>) : null}
-          </div>
-          
-          <button type="submit" className="btn btn-warning px-4 py-1 w-100">Log In</button>
-        </form>
+
+            {/* <p>or <Link to="/register" label="Register">Register</Link>.</p> */}
+            <div className="card-body">
+              <form onSubmit={formik.handleSubmit}>
+
+                <div className="input-group form-group py-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text"><i className="fas fa-user"></i></span>
+                  </div>
+
+                  <input 
+                    type="email" 
+                    id="email"
+                      // shorthand for onBlur, onChange etc, spreads 
+                      {...formik.getFieldProps('email')}
+                      className="form-control"
+                      placeholder="Email"
+                  />
+                </div>
+                  {formik.touched.email && formik.errors.email ? (<div className="error">{formik.errors.email}</div>) : null}
+                
+                <div className="input-group form-group py-3">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                  </div>
+
+                  <input 
+                    type="password" 
+                    id="password"
+                    {...formik.getFieldProps('password')}
+                    className="form-control"
+                    placeholder="Password"
+                  />
+                </div>
+                  {formik.touched.password && formik.errors.password ? (<p className="error">{formik.errors.password}</p>) : null}
+                <div className="form-group">
+                  <button type="submit" className="btn float-right login_btn">Log In</button>
+                </div>
+              </form>
+            </div>
+            
+            <div className="card-footer">
+              <div className="d-flex justify-content-center links">
+                Don't have an account?<Link to="/register">Sign Up</Link>
+              </div>
+              <div className="d-flex justify-content-center">
+                <Link>Forgot your password?</Link>
+              </div>
+            </div>
       </div>
       </div>
     </StyledLogin>
