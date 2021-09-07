@@ -51,8 +51,8 @@ const Login = ({ setState }) => {
 
   return (
     <StyledLogin className="container">
-      <div className="d-flex justify-content-center h-100">
-        <div className="card">
+      <div className="d-flex justify-content-center bob">
+        <div className="card mt-5 col-md-5">
 
           <div className="card-header">
             <p className="h3">Sign In</p>
@@ -92,7 +92,7 @@ const Login = ({ setState }) => {
                   />
                 </div>
                   {formik.touched.password && formik.errors.password ? (<p className="error">{formik.errors.password}</p>) : null}
-                <div className="form-group">
+                <div className="form-group pt-3">
                   <button type="submit" className="btn float-right login_btn">Log In</button>
                 </div>
               </form>

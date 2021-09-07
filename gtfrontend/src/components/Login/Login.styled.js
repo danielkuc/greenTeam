@@ -16,11 +16,14 @@ const StyledLogin = styled.div`
   align-content: center;
 }
 
+// .bob {
+//   background-color:green;
+// }
+
 .card{
-  height: 370px;
+  height: 24rem;
   margin-top: auto;
   margin-bottom: auto;
-  width: 400px;
   background-color: rgba(0,0,0,0.5) !important;
 }
 
@@ -58,5 +61,9 @@ input:focus{
 .links a{
   margin-left: 4px;
   }
+
+a {
+  text-decoration:none;
+}
 `
 export default StyledLogin;
