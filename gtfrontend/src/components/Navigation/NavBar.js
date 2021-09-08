@@ -5,12 +5,12 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 const NavBar = ({ state }) => {
   return (
     <>
-      <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" className={`${!state ? 'd-none' : null}`}>
+      <Navbar collapseOnSelect expand="md" bg="success" variant="dark" className={`mb-5 mt-3 ${!state ? 'd-none' : null}`}>
         <Container>
           <Navbar.Brand href="/">The Green Team</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className='me-auto'>
+            <Nav className="me-auto">
               <Nav.Link href="/bonus">Bonus</Nav.Link>
               <Nav.Link href="/links">Useful Links</Nav.Link>
             </Nav>
