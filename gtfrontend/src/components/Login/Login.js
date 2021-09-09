@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CARD } from './Login.styled';
-import { useFormik, Formik } from "formik";
+import { Formik, ErrorMessage } from "formik";
 // Form,
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
@@ -8,20 +8,19 @@ import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
 
-const Login = ({ setState }) => {
 
-  // const data = {
-  //   email:'',
-  //   password: ''
-  // };
+
+const Login = ({ setState }) => {
+  const [serverError, setServerError] = useState(false);
 
   let history = useHistory();
-
+  // validation schema using Yup
   const validator = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email required'),
     password: Yup.string().required('Password required'),
   });
-
+  // handle submit function : gets csrf cookies from backend (need to be attached with any authorized requests and always withCredentials),
+  // then takes validated user input sends to back end function to check if user is in database, then sets state with user info and redirects to home. if user not found throws formik error. 
   const handleSubmit = async (values) => {
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (response) => {
@@ -35,83 +34,14 @@ const Login = ({ setState }) => {
       })
       });
     } catch (error) {
-      const status = error.response;
-      if (status) {
-        Formik.setFieldError('password', `Invalid credentials or user not found`)
-      }
+        setServerError(true);
+        console.log(serverError);
     }
   };
   // 7430164417
 
-  // // initializing formik: passing state and submit.
-  // const formik = useFormik({
-  //   initialValues:data,
-  //   // validation done by Yup and passed to formik as an object
-  //   validationSchema:validator,
-  //   // event fired off on submit of a form
-  //   onSubmit: handleSubmit
-  // });
 
   return (
-    // <StyledLogin className="container mt-5">
-    //   <div className="d-flex justify-content-center bob">
-    //     <div className="card">
-
-    //       <div className="card-header">
-    //         <p className="h3">Sign In</p>
-    //       </div>
-
-    //         {/* <p>or <Link to="/register" label="Register">Register</Link>.</p> */}
-    //         <div className="card-body">
-    //           <form onSubmit={formik.handleSubmit}>
-
-    //             <div className="input-group form-group">
-    //               <div className="input-group-prepend">
-    //                 <span className="input-group-text"><i className="fas fa-user"></i></span>
-    //               </div>
-
-    //               <input 
-    //                 type="email" 
-    //                 id="email"
-    //                   // shorthand for onBlur, onChange etc, spreads 
-    //                   {...formik.getFieldProps('email')}
-    //                   className="form-control"
-    //                   placeholder="Email"
-    //               />
-    //             </div>
-    //               {formik.touched.email && formik.errors.email ? (<div className="error">{formik.errors.email}</div>) : null}
-                
-    //             <div className="input-group form-group">
-    //               <div className="input-group-prepend">
-    //                 <span className="input-group-text"><i className="fas fa-key"></i></span>
-    //               </div>
-
-    //               <input 
-    //                 type="password" 
-    //                 id="password"
-    //                 {...formik.getFieldProps('password')}
-    //                 className="form-control"
-    //                 placeholder="Password"
-    //               />
-    //             </div>
-    //               {formik.touched.password && formik.errors.password ? (<p className="error">{formik.errors.password}</p>) : null}
-    //             <div className="form-group pt-3">
-    //               <button type="submit" className="btn float-right login_btn">Log In</button>
-    //             </div>
-    //           </form>
-    //         </div>
-            
-    //         <div className="card-footer">
-    //           <div className="d-flex justify-content-center links">
-    //             Don't have an account?<Link to="/register">Sign Up</Link>
-    //           </div>
-    //           <div className="d-flex justify-content-center">
-    //             <Link>Forgot your password?</Link>
-    //           </div>
-    //         </div>
-    //   </div>
-    //   </div>
-    // </StyledLogin>
     <Container fluid="sm">
       <Row className="justify-content-center">
         <Col md={5}>
@@ -120,76 +50,80 @@ const Login = ({ setState }) => {
               <Card.Title>Sign In</Card.Title>
             </Card.Header>
             <Card.Body>
-          {/* EMAIL INPUT */}
-          <Formik
-            validationSchema={validator}
-            onSubmit={() => console.log('success')}
-            initialValues={{ 
-              email:'',
-              password:''
-             }}
-          >
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              touched,
-              isValid,
-              errors
-            }) =>(
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="my-3">
-                  <FloatingLabel
-                    controlId="email"
-                    label="Email address"
-                  >
-                    <Form.Control 
-                      type="email"
-                      name="email"
-                      placeholder="email@example.com"
-                      value={values.email}
-                      onChange={handleChange}
-                      isInvalid={errors.email}
-                    />
-                    <FormControl.Feedback type="invalid">
-                      {errors.email}
-                    </FormControl.Feedback>
-                  </FloatingLabel>
-                </Form.Group>
-            {/* PASSWORD INPUT */}
-                <Form.Group>
-                  <FloatingLabel
-                    controlId="password"
-                    label="Password"
-                  >
-                    <Form.Control 
-                      type="password"
-                      name="password"
-                      placeholder="password"
-                      value={values.password}
-                      onChange={handleChange}
-                      isInvalid={errors.password}
-                    />
-                    <FormControl.Feedback type="invalid">
-                      {errors.password}
-                    </FormControl.Feedback>
-                  </FloatingLabel>
-                </Form.Group>
-                <Form.Group className="my-3">
-                  <Button
-                    type="submit"
-                    variant="warning"
-                    size="lg"
-                    >
-                    Sign In
-                  </Button>
-                </Form.Group>
-              </Form>
-          )}
-          </Formik>
+              {/* start of formik form */}
+              <Formik
+                validationSchema={validator}
+                onSubmit={handleSubmit}
+                // initial values / state of the form
+                initialValues={{ 
+                  email:'',
+                  password:''
+                }}
+              >
+                {({
+                  handleSubmit,
+                  handleChange,
+                  handleBlur,
+                  values,
+                  touched,
+                  isValid,
+                  errors
+                }) =>(
+                  <Form onSubmit={handleSubmit}>
+                    {/* EMAIL INPUT */}
+                    <Form.Group className="my-3">
+                      <FloatingLabel
+                        controlId="email"
+                        label="Email address"
+                      >
+                        <Form.Control 
+                          type="email"
+                          name="email"
+                          placeholder="email@example.com"
+                          value={values.email}
+                          onChange={handleChange}
+                          isInvalid={errors.email}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.email}
+                        </FormControl.Feedback>
+                      </FloatingLabel>
+                    </Form.Group>
+                    {/* PASSWORD INPUT */}
+                    <Form.Group>
+                      <FloatingLabel
+                        controlId="password"
+                        label="Password"
+                      >
+                        <Form.Control 
+                          type="password"
+                          name="password"
+                          placeholder="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          isInvalid={errors.password}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.password}
+                        </FormControl.Feedback>
+                        {serverError ? <div className="invalid-feedback">doesn't work</div> : null}
+                      </FloatingLabel>
+                    </Form.Group>
+                    {/* Submit button */}
+                    <Form.Group className="my-3">
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        size="lg"
+                        >
+                        Sign In
+                      </Button>
+                    </Form.Group>
+                  </Form>
+              )}
+              </Formik>
             </Card.Body>
-          {/* FOOTER */}
+            {/* FOOTER */}
             <Card.Footer className="py-3">
               <div className="d-flex justify-content-center links">
                  Don't have an account?<Link to="/register">Sign Up</Link>
