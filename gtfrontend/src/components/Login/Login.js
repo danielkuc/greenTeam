@@ -12,6 +12,7 @@ import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } fr
 
 const Login = ({ setState }) => {
   const [serverError, setServerError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   let history = useHistory();
   // validation schema using Yup
@@ -22,16 +23,18 @@ const Login = ({ setState }) => {
   // handle submit function : gets csrf cookies from backend (need to be attached with any authorized requests and always withCredentials),
   // then takes validated user input sends to back end function to check if user is in database, then sets state with user info and redirects to home. if user not found throws formik error. 
   const handleSubmit = async (values) => {
+    setIsLoading(true);
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (response) => {
         await axios.post("http://localhost:8000/api/login", values).then(response => {
-        const {user} = response.data;
-        setState(prevState => ({
-          isLoggedIn: true,
-          details: user
-        }));
-        history.push("/");
-      })
+          const {user} = response.data;
+          setState(prevState => ({
+            isLoggedIn: true,
+            details: user
+          }));
+          history.push("/");
+          setIsLoading(false);
+        });
       });
     } catch (error) {
         setServerError(true);
@@ -81,6 +84,7 @@ const Login = ({ setState }) => {
                           name="email"
                           placeholder="email@example.com"
                           value={values.email}
+                          onBlur={handleBlur}
                           onChange={handleChange}
                           isInvalid={errors.email}
                         />
@@ -100,6 +104,7 @@ const Login = ({ setState }) => {
                           name="password"
                           placeholder="password"
                           value={values.password}
+                          onBlur={handleBlur}
                           onChange={handleChange}
                           isInvalid={errors.password}
                         />
@@ -115,8 +120,9 @@ const Login = ({ setState }) => {
                         type="submit"
                         variant="warning"
                         size="lg"
+                        disabled={isLoading}
                         >
-                        Sign In
+                        {!isLoading ? 'Sign In' : 'Loading...'}
                       </Button>
                     </Form.Group>
                   </Form>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { Container } from 'react-bootstrap';
 const StyledRegister = styled.div`
 // @import url('https://fonts.googleapis.com/css?family=Numans');
 
@@ -61,4 +61,11 @@ a {
 }
 `
 
-export default StyledRegister;
+const CONTAINER = styled(Container)`
+  background-color:lightblue;
+`;
+
+export {
+  StyledRegister,
+  CONTAINER
+};
