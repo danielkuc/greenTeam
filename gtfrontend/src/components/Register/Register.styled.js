@@ -62,7 +62,8 @@ a {
 `
 
 const CONTAINER = styled(Container)`
-  background-color:lightblue;
+
+
 `;
 
 export {

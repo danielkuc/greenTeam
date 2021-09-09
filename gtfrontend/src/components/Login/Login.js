@@ -111,7 +111,6 @@ const Login = ({ setState }) => {
                         <FormControl.Feedback type="invalid">
                           {errors.password}
                         </FormControl.Feedback>
-                        {serverError ? <div className="invalid-feedback">doesn't work</div> : null}
                       </FloatingLabel>
                     </Form.Group>
                     {/* Submit button */}
