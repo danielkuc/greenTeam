@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 // formik - open source form library for React
-import { Formik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import { CONTAINER } from './Register.styled';
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
 import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const Register = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const formik = useFormik;
   // state and initial values for formik
   const data = {
     first_name:'',
@@ -30,13 +32,16 @@ const Register = () => {
   });
 
   const handleSubmit = async (values) => {
+    setIsLoading(true)
     try {
       await axios.post('http://localhost:8000/api/register', values).then(response => {
         return response.json();
       });
+      setIsLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        // formik.setFieldError('email', 'Email must be unique');
+        formik.setFieldError('email', 'Email must be unique');
+        setIsLoading(false)
       }
     }    
   };
@@ -56,14 +61,14 @@ const Register = () => {
       <Row className="justify-content-center">
         <Col md={7}>
           <Card>
-            <Card.Header>
+            <Card.Header className="py-3">
               <Card.Title>Sign Up</Card.Title>
             </Card.Header>
             <Card.Body>
             {/* Start of Formik form */}
             <Formik
               validationSchema={validator}
-              // onSubmit={}
+              onSubmit={handleSubmit}
               initialValues={{ 
                 ...data
                }}
@@ -143,7 +148,7 @@ const Register = () => {
                     <Form.Group>
                       <FloatingLabel
                         controlId="occupation"
-                        label="Choose your occupation"
+                        label="Occupation"
                       >
                         <Form.Select>
                           <option value="Oa / Support">OA / Support</option>
@@ -197,13 +202,23 @@ const Register = () => {
                     </FloatingLabel>
                   </Form.Group>
 
+                  <Form.Group className="my-3">
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        size="lg"
+                        disabled={isLoading}
+                        >
+                        {!isLoading ? 'Sign Up' : 'Loading...'}
+                      </Button>
+                    </Form.Group>
                 
                 </Form>
               )}
             </Formik>
             </Card.Body>
             {/* FOOTER */}
-            <Card.Footer>
+            <Card.Footer className="py-3">
               <div className="d-flex justify-content-center links">
                  Already have an account?<Link to="/login">Sign In</Link>
               </div>
