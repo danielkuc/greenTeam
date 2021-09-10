@@ -4,13 +4,12 @@ import * as Yup from 'yup';
 import axios from 'axios';
 // formik - open source form library for React
 import { Formik } from 'formik';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CONTAINER } from './Register.styled';
-import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Row, Col, Card, Button, ToastContainer, ToastHeader, ToastBody } from 'react-bootstrap';
 import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
 
 const Register = () => {
-  let history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   // Yup validation rules
   const validator =  Yup.object({
@@ -29,7 +28,6 @@ const Register = () => {
         return response.json();
       });
       setIsLoading(false);
-      history.push("/registration-confirm");
     } catch (error) {
       setIsLoading(false)
     }    
@@ -37,6 +35,19 @@ const Register = () => {
 
   return(
     <CONTAINER fluid="sm">
+      <ToastContainer >
+        <ToastHeader>
+          <strong className="mx-auto">
+            Success!
+          </strong>
+        </ToastHeader>
+        <ToastBody>
+        Registration successful. Please <Link to="/login">Sign In</Link>
+            <p>
+              to access your account.
+            </p>
+        </ToastBody>
+      </ToastContainer>
       <Row className="justify-content-center">
         <Col md={7}>
           <Card>
