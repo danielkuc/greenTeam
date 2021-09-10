@@ -26,13 +26,16 @@ const Register = () => {
     first_name: Yup.string().required('First name required'),
     last_name: Yup.string().required('Last name required'),
     email: Yup.string().email('Invalid email address').required('Email required'),
-    password: Yup.string().required('Password required').matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
-    "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
+    password: Yup.string().required('Password required'),
     password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
+  // .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+    // "Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character")
+
   const handleSubmit = async (values) => {
     setIsLoading(true)
+    console.log(values)
     try {
       await axios.post('http://localhost:8000/api/register', values).then(response => {
         return response.json();
@@ -40,13 +43,12 @@ const Register = () => {
       setIsLoading(false);
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        formik.setFieldError('email', 'Email must be unique');
+        // formik.setFieldError('email', 'Email must be unique');
+        console.log('something went wrong')
         setIsLoading(false)
       }
     }    
   };
-
-
 
   // initializing formik: passing state and submit.
   // const formik = useFormik({
@@ -70,8 +72,12 @@ const Register = () => {
               validationSchema={validator}
               onSubmit={handleSubmit}
               initialValues={{ 
-                ...data
-               }}
+                first_name:'',
+                last_name:'',
+                email:'',
+                occupation:'',
+                password:'',
+                password_confirmation:''               }}
             >
               {({
                 handleSubmit,
