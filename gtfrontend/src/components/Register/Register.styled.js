@@ -66,6 +66,13 @@ const CONTAINER = styled(Container)`
 .form-floating {
   margin-top:1rem;
 }
+a{
+  text-decoration:none;
+  color:orange;
+}
+a:hover{
+  color:#e37910;
+}
 
 .card {
   background-color: rgba(0,0,0,0.4) !important;
@@ -76,13 +83,7 @@ const CONTAINER = styled(Container)`
   }
   
   .card-footer{
-    a{
-      text-decoration:none;
-      color:orange;
-    }
-    a:hover{
-      color:#e37910;
-    }
+
     color:white;
     background-color: rgba(0,0,0,0.3) !important;
   }

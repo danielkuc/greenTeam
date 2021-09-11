@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { CONTAINER } from './Register.styled';
-import { Row, Col, Card, Button, ToastContainer, ToastHeader, ToastBody } from 'react-bootstrap';
+import { Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
 
 const Register = () => {
@@ -35,19 +35,26 @@ const Register = () => {
 
   return(
     <CONTAINER fluid="sm">
-      <ToastContainer >
-        <ToastHeader>
-          <strong className="mx-auto">
+      <Modal 
+        show={false}
+        centered
+        backdrop="static"
+      >
+        <Modal.Header>
+          <Modal.Title>
             Success!
-          </strong>
-        </ToastHeader>
-        <ToastBody>
-        Registration successful. Please <Link to="/login">Sign In</Link>
-            <p>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        Registration successful. Please Sign In
               to access your account.
-            </p>
-        </ToastBody>
-      </ToastContainer>
+        </Modal.Body>
+        <Modal.Footer >
+          <Link to="/login" className="mx-auto">
+            <Button variant="warning" >Sign In</Button>
+          </Link>
+        </Modal.Footer>
+      </Modal>
       <Row className="justify-content-center">
         <Col md={7}>
           <Card>
