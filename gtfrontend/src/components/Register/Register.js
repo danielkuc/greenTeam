@@ -5,12 +5,15 @@ import axios from 'axios';
 // formik - open source form library for React
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { CONTAINER } from './Register.styled';
+import { CONTAINER, MODAL } from './Register.styled';
 import { Row, Col, Card, Button, Modal } from 'react-bootstrap';
 import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
 
 const Register = () => {
+  // Submit button state, display message for user while performing a request
   const [isLoading, setIsLoading] = useState(false);
+  // Modal state
+  const [show, setShow] = useState(false);
   // Yup validation rules
   const validator =  Yup.object({
     first_name: Yup.string().required('First name required'),
@@ -28,6 +31,7 @@ const Register = () => {
         return response.json();
       });
       setIsLoading(false);
+      setShow(true);
     } catch (error) {
       setIsLoading(false)
     }    
@@ -35,10 +39,11 @@ const Register = () => {
 
   return(
     <CONTAINER fluid="sm">
-      <Modal 
-        show={false}
+      <MODAL 
+        show={show}
         centered
         backdrop="static"
+        keyboard={false}
       >
         <Modal.Header>
           <Modal.Title>
@@ -54,7 +59,7 @@ const Register = () => {
             <Button variant="warning" >Sign In</Button>
           </Link>
         </Modal.Footer>
-      </Modal>
+      </MODAL>
       <Row className="justify-content-center">
         <Col md={7}>
           <Card>
