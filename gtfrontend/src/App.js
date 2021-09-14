@@ -1,6 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Login, Register, Home,NavBar, ProtectedRoute, Banner } from './components';
+import { Login, Register, Home,NavBar, ProtectedRoute, Banner, ForgotPass } from './components';
 import { useState } from 'react';
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
         <ProtectedRoute exact path="/" component={Home} isLoggedIn={user.isLoggedIn} />
         <Route exact path="/login" render={(props) => <Login {...props} setState={setUser} />} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/forgot-password" component={ForgotPass} />
       </Switch>
     </>
   );

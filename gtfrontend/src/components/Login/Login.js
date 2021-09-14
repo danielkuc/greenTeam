@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { CARD } from './Login.styled';
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 // Form,
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
