@@ -1,11 +1,12 @@
-import React from 'react';
-import { Card, Col, Form, Row, FloatingLabel, FormControl } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Card, Col, Form, Row, FloatingLabel, FormControl } from 'react-bootstrap';
 import CardHeader from 'react-bootstrap/esm/CardHeader';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import CONTAINER from './ForgotPass.styled';
 
 const ForgotPass = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const validator = yup.object({
     email: yup.string().email('Invalid email address').required('Email required')
   });
@@ -55,6 +56,17 @@ const ForgotPass = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>
                     </Form.Group>
+                    <Form.Group className="my-3">
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        size="lg"
+                        disabled={isLoading}
+                        >
+                        {!isLoading ? 'Sign In' : 'Loading...'}
+                      </Button>
+                    </Form.Group>
+
                   </Form>
                 )}
               </Formik>
