@@ -4,12 +4,17 @@ import CardHeader from 'react-bootstrap/esm/CardHeader';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import CONTAINER from './ForgotPass.styled';
+import axios from 'axios';
 
 const ForgotPass = () => {
   const [isLoading, setIsLoading] = useState(false)
   const validator = yup.object({
     email: yup.string().email('Invalid email address').required('Email required')
   });
+
+  const handleSubmit = () => {
+
+  }
 
   return (
     <CONTAINER fluid="sm">
@@ -26,7 +31,7 @@ const ForgotPass = () => {
                 validationSchema={validator}
                 // onSubmit={}
                 initialValues={{ 
-                  // email=''
+                  email:''
                  }}
               >
                 {({
@@ -63,10 +68,9 @@ const ForgotPass = () => {
                         size="lg"
                         disabled={isLoading}
                         >
-                        {!isLoading ? 'Sign In' : 'Loading...'}
+                        {!isLoading ? 'Submit' : 'Loading...'}
                       </Button>
                     </Form.Group>
-
                   </Form>
                 )}
               </Formik>
