@@ -4,4 +4,5 @@ export { default as Home } from '../components/Home';
 export { default as NavBar } from '../components/Navigation';
 export { default as Banner } from '../components/Banner';
 export { default as ForgotPass } from '../components/ForgotPass';
+export { default as ResetPass } from '../components/ResetPass';
 export { default as ProtectedRoute } from './ProtectedRoute';

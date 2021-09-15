@@ -1,5 +1,5 @@
-import React from 'react';
-import { Col, Row, Card, Form, FloatingLabel, FormControl } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Col, Row, Card, Form, FloatingLabel, FormControl, Modal } from 'react-bootstrap';
 import CONTAINER from './ResetPass.styled';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -15,9 +15,30 @@ const ResetPass = () => {
     password_confirmation: yup.string().required('Password confirmation required').oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <CONTAINER fluid="sm">
+      <Modal
+        show={show}
+        centered
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Success!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Password reset successfully, please Sign in to access your account.
+        </Modal.Body>
+        <Modal.Footer>
+
+        </Modal.Footer>
+      </Modal>
       <Row className="justify-content-center">
         <Col md={5}>
           <Card>
@@ -47,6 +68,7 @@ const ResetPass = () => {
                   
                 })=>(
                   <Form onSubmit={handleSubmit}>
+                        {/* Email input */}
                     <Form.Group className="my-3">
                       <FloatingLabel
                         controlId="email"
@@ -66,10 +88,59 @@ const ResetPass = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>
                     </Form.Group>
+                      {/* Password input */}
+                    <Form.Group>
+                    <FloatingLabel
+                      controlId="password"
+                      label="Password"
+                    >
+                      <Form.Control 
+                        type="password"
+                        name="password"
+                        placeholder="password"
+                        value={values.password}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        isInvalid={errors.password}
+                      />
+                      <FormControl.Feedback type="invalid">
+                        {errors.password}
+                      </FormControl.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
+                  {/* PASSWORD CONFIRMATION */}
+                  <Form.Group className="my-3">
+                    <FloatingLabel
+                      controlId="password_confirmation"
+                      label="Confirm password"
+                    >
+                      <Form.Control 
+                        type="password"
+                        name="password_confirmation"
+                        placeholder="password"
+                        value={values.password_confirmation}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        isInvalid={errors.password_confirmation}
+                      />
+                      <FormControl.Feedback type="invalid">
+                        {errors.password_confirmation}
+                      </FormControl.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
 
-                    <Form.Group className="my-3">
-                      
+                  <Form.Group className="my-3">
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        size="lg"
+                        disabled={isLoading}
+                        >
+                        {!isLoading ? 'Submit' : 'Loading...'}
+                      </Button>
+                      <Button onCLick={()=> setShow(true)} variant="primary" disabled={isLoading}>Close</Button>
                     </Form.Group>
+
                   </Form>
                 )}
               </Formik>
