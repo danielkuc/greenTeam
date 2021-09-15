@@ -134,7 +134,7 @@ const Login = ({ setState }) => {
                  Don't have an account?<Link to="/register">Sign Up</Link>
               </div>
               <div className="d-flex justify-content-center">
-                <Link to="#">Forgot your password?</Link>
+                <Link to="/forgot-password">Forgot your password?</Link>
               </div>
             </Card.Footer>
           </CARD>

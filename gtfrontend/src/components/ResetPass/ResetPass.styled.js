@@ -13,6 +13,17 @@ const CONTAINER = styled(Container) `
 .invalid-feedback {
   color:orange;
 }
+.card-footer{
+  a{
+    text-decoration:none;
+    color:orange;
+  }
+  a:hover{
+    color:#e37910;
+  }
+  color:white;
+  background-color: rgba(0,0,0,0.3) !important;
+}
 `;
 
 export default CONTAINER;

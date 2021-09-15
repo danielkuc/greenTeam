@@ -4,6 +4,7 @@ import CONTAINER from './ResetPass.styled';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const ResetPass = () => {
   const validator = yup.object({
@@ -26,6 +27,7 @@ const ResetPass = () => {
         show={show}
         centered
         keyboard={false}
+        onHide={handleClose}
       >
         <Modal.Header closeButton>
           <Modal.Title>
@@ -36,7 +38,18 @@ const ResetPass = () => {
           Password reset successfully, please Sign in to access your account.
         </Modal.Body>
         <Modal.Footer>
-
+          <Link to="/login">
+            <Button
+              variant="warning"
+            >
+              Sign In
+            </Button>
+          </Link>
+          <Button
+            onClick={handleClose}
+          >
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
       <Row className="justify-content-center">
@@ -135,16 +148,21 @@ const ResetPass = () => {
                         variant="warning"
                         size="lg"
                         disabled={isLoading}
+                        onClick={handleShow}
                         >
-                        {!isLoading ? 'Submit' : 'Loading...'}
+                        {!isLoading ? 'Confirm password reset' : 'Loading...'}
                       </Button>
-                      <Button onCLick={()=> setShow(true)} variant="primary" disabled={isLoading}>Close</Button>
                     </Form.Group>
 
                   </Form>
                 )}
               </Formik>
-            </Card.Body> 
+            </Card.Body>
+            <Card.Footer className="py-3">
+                <div className="d-flex justify-content-center">
+                  Go back to <Link to="/login">Sign In</Link>
+                </div>
+            </Card.Footer> 
           </Card>
         </Col>
       </Row>
