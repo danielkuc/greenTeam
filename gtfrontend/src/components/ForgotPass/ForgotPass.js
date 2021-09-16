@@ -68,7 +68,7 @@ const ForgotPass = () => {
                         size="lg"
                         disabled={isLoading}
                         >
-                        {!isLoading ? 'Submit' : 'Loading...'}
+                        {!isLoading ? 'Send Password Reset Link' : 'Loading...'}
                       </Button>
                     </Form.Group>
                   </Form>

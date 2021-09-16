@@ -28,3 +28,9 @@ Route::get('/users/search/{name}', [UserController::class, 'show']);
 Route::put('users/update/{id}', [UserController::class, 'update']);
 Route::post('/register', [UserController::class, 'store']);
 Route::delete('/remove/{id}', [UserController::class, 'destroy']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+// Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+// Route::post('/new-password', [AuthController::class, 'setNewPassword']);
+
+
+
