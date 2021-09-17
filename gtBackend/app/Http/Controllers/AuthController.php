@@ -37,9 +37,10 @@ class AuthController extends Controller
         ],404);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->user()->tokens()->delete();
 
         return response()->json([
             'message' => 'User successfully signed out'
@@ -55,8 +56,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+                    ? ['status' => __($status)]
+                    : ['email' => __($status)];
     }
 
     public function resetPassword(Request $request)
@@ -67,6 +68,21 @@ class AuthController extends Controller
             'password'=>'required|confirmed'
         ]);
 
-        $status = Password::reset();
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function($user, $password)
+            {
+                $user->forceFill([
+                    'password'=>Hash::make($password)
+                ])->save();
+
+                $user->tokens()->delete();
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+                    ? ['status' => __($status)]
+                    :  ['email' => __($status)];
     }
 }
