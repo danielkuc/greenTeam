@@ -12,8 +12,14 @@ const ForgotPass = () => {
     email: yup.string().email('Invalid email address').required('Email required')
   });
 
-  const handleSubmit = () => {
-
+  const handleSubmit =  async (values) => {
+    setIsLoading(true);
+    try {
+      await axios.post('http://localhost:8000/api/forgot-password', values);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);      
+    }
   }
 
   return (
@@ -29,7 +35,7 @@ const ForgotPass = () => {
             <Card.Body>
               <Formik
                 validationSchema={validator}
-                // onSubmit={}
+                onSubmit={handleSubmit}
                 initialValues={{ 
                   email:''
                  }}
@@ -41,7 +47,7 @@ const ForgotPass = () => {
                   values,
                   errors
                 })=>(
-                  <Form onSubmit={()=> console.log(values)}>
+                  <Form onSubmit={handleSubmit}>
                     <Form.Group className="my-3">
                       <FloatingLabel
                         controlId="email"

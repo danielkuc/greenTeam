@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
 use App\Models\User;
 use Validator;
 
@@ -68,21 +70,30 @@ class AuthController extends Controller
             'password'=>'required|confirmed'
         ]);
 
-        $status = Password::reset(
+        $status = Password::reset
+        (
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function($user, $password)
+
+            function($user) use ($request)
             {
                 $user->forceFill([
-                    'password'=>Hash::make($password)
+                    'password' => Hash::make($request->password)
                 ])->save();
-
+                
                 $user->tokens()->delete();
+                
                 event(new PasswordReset($user));
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-                    ? ['status' => __($status)]
-                    :  ['email' => __($status)];
+        if ($status == Password::PASSWORD_RESET) {
+            return response([
+                'message' => 'password reset successfully'
+            ]);
+        }
+
+        return response([
+            'message' => __($status)
+        ], 500);
     }
 }
