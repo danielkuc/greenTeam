@@ -49,7 +49,7 @@ class AuthController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate(['email'=>'required|email']);
-
+            // sends password reset link with token
         $status = Password::sendResetLink(
             $request->only('email')
         );
@@ -57,5 +57,16 @@ class AuthController extends Controller
         return $status === Password::RESET_LINK_SENT
                     ? back()->with(['status' => __($status)])
                     : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token'=>'required',
+            'email'=>'required|email',
+            'password'=>'required|confirmed'
+        ]);
+
+        $status = Password::reset();
     }
 }

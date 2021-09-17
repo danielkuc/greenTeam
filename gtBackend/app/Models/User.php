@@ -45,7 +45,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+        // override default notification
     public function sendPasswordResetNotification($token)
     {
         $url = "http://localhost:3000/reset-password?token=" . $token;
