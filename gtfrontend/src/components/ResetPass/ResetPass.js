@@ -4,9 +4,13 @@ import CONTAINER from './ResetPass.styled';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const ResetPass = () => {
+
+  const search= useLocation().search;
+  const token = new URLSearchParams(search).get('token');
+
   const validator = yup.object({
     email: yup.string().email('Invalid email address').required('Email required'),
 
@@ -16,10 +20,27 @@ const ResetPass = () => {
     password_confirmation: yup.string().required('Password confirmation required').oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
+  
   const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    const credentials = {
+      ...values,
+      'token': token
+    } 
+    await axios.post('http://localhost:8000/api/reset-password', credentials).then(response => {
+      console.log(response.status);
+      setIsLoading(false)
+
+      if (response.status === 200) {
+        handleShow();
+      }
+    });
+  }
 
   return (
     <CONTAINER fluid="sm">
@@ -63,7 +84,7 @@ const ResetPass = () => {
             <Card.Body>
               <Formik
                 validationSchema={validator}
-                // onSubmit={}
+                onSubmit={handleSubmit}
                 initialValues={{ 
                   email:'',
                   password:'',
@@ -148,8 +169,7 @@ const ResetPass = () => {
                         variant="warning"
                         size="lg"
                         disabled={isLoading}
-                        onClick={handleShow}
-                        >
+                      >
                         {!isLoading ? 'Confirm password reset' : 'Loading...'}
                       </Button>
                     </Form.Group>

@@ -89,7 +89,7 @@ class AuthController extends Controller
         if ($status == Password::PASSWORD_RESET) {
             return response([
                 'message' => 'password reset successfully'
-            ]);
+            ], 200);
         }
 
         return response([
