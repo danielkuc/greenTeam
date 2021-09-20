@@ -7,7 +7,8 @@ import CONTAINER from './ForgotPass.styled';
 import axios from 'axios';
 
 const ForgotPass = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [display, setDisplay] = useState(false);
   const validator = yup.object({
     email: yup.string().email('Invalid email address').required('Email required')
   });
@@ -17,6 +18,7 @@ const ForgotPass = () => {
     try {
       await axios.post('http://localhost:8000/api/forgot-password', values);
       setIsLoading(false);
+      setDisplay(true);
     } catch (error) {
       setIsLoading(false);      
     }
@@ -67,6 +69,11 @@ const ForgotPass = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>
                     </Form.Group>
+
+                    <Form.Group className={display ? `d-block` : `d-none`}>
+                      <p className="popup">We've sent you a password reset link.</p>
+                    </Form.Group>
+
                     <Form.Group className="my-3">
                       <Button
                         type="submit"

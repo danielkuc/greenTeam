@@ -13,6 +13,11 @@ const CONTAINER = styled(Container)`
 .invalid-feedback {
   color:orange;
 }
+
+.popup {
+  color: orange;
+  font-size:large;
+}
 `;
 
 export default CONTAINER;

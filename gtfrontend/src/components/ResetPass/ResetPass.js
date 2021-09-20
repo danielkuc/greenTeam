@@ -32,14 +32,16 @@ const ResetPass = () => {
       ...values,
       'token': token
     } 
-    await axios.post('http://localhost:8000/api/reset-password', credentials).then(response => {
-      console.log(response.status);
-      setIsLoading(false)
-
-      if (response.status === 200) {
-        handleShow();
-      }
-    });
+    try {
+      await axios.post('http://localhost:8000/api/reset-password', credentials).then(response => {
+        if (response.status === 200) {
+          setIsLoading(false)
+          handleShow();
+        }
+      });
+    } catch (error) {
+      console.log(error);      
+    }
   }
 
   return (
