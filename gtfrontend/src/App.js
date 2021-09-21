@@ -12,7 +12,7 @@ function App() {
 
   return (
     <>
-      {user.isLoggedIn ? <NavBar state={user.isLoggedIn}/> : <Banner />}
+      {user.isLoggedIn ? <NavBar state={user.isLoggedIn} user={user} /> : <Banner />}
       <Switch>
         <ProtectedRoute exact path="/" component={Home} isLoggedIn={user.isLoggedIn} />
         <Route exact path="/login" render={(props) => <Login {...props} setState={setUser} />} />

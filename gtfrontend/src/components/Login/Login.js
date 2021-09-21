@@ -9,7 +9,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
 
 
-
+// SETSTATE THROWING A UNMOUNTEND COMPONENT STATE ERROR, TO DO!!! CANCELL ALL SUBSCRIPTIONS AND ASSYNCS IN USEEFFECT CLEANUP
 const Login = ({ setState }) => {
   const [serverError, setServerError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +32,7 @@ const Login = ({ setState }) => {
             isLoggedIn: true,
             details: user
           }));
+        }).then(()=>{
           history.push("/");
           setIsLoading(false);
         });

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import { Container } from 'react-bootstrap';
 
-const StyledHome = styled.div`
+const CONTAINER = styled(Container)`
+  
+`;
 
-`
-
-export default StyledHome;
+export default CONTAINER;

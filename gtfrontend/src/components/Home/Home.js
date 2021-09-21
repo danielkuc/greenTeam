@@ -1,11 +1,11 @@
-import StyledHome from "./Home.styled";
+import CONTAINER from "./Home.styled";
 import React from 'react';
 
 const Home = () => {
   return (
-    <StyledHome>
+    <CONTAINER>
       Hello from Home
-    </StyledHome>
+    </CONTAINER>
   )
 }
 

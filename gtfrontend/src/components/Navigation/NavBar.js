@@ -1,8 +1,10 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
-const NavBar = ({ state }) => {
+const NavBar = ({ state, user }) => {
+  const { first_name, last_name } = user.details;
   return (
     <>
       <Navbar collapseOnSelect expand="md" bg="success" variant="dark" className={`mb-5 mt-3 ${!state ? 'd-none' : null}`}>
@@ -13,13 +15,13 @@ const NavBar = ({ state }) => {
             <Nav className="me-auto">
               <Nav.Link href="/bonus">Bonus</Nav.Link>
               <Nav.Link href="/links">Useful Links</Nav.Link>
+              <Nav.Link href="/clinical">Clinical</Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link href="#deets">More deets</Nav.Link>
-              <Nav.Link href="#memes">Dank memes</Nav.Link>
               <Navbar.Text>
-                Signed in as: <a href="/account">Mark Otto</a>
+                Signed in as: <Link to="/account">{`${first_name} ${last_name}`}</Link>
               </Navbar.Text>
+                <Nav.Link>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
