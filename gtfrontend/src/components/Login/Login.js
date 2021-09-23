@@ -25,17 +25,22 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true});
-      await axios.post("http://localhost:8000/api/login", values).then(response => {
-        const {user} = response.data;
-        setState(prevState => ({
-          isLoggedIn: true,
-          details: user
-        }));
-        }).then(()=>{
-          history.push("/");
-          setIsLoading(false);
-        });
+      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (request) => 
+      {
+        await axios.post("http://localhost:8000/api/login", values).then(response => 
+        {
+          const {user} = response.data;
+          console.log(user);
+          setState(prevState => ({
+            isLoggedIn: true,
+            details: user
+          }));
+          }).then(()=>
+          {
+            history.push("/");
+            setIsLoading(false);
+          });
+      });
     } catch (error) {
         setServerError(true);
         console.log(serverError);

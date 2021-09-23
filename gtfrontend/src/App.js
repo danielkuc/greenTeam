@@ -1,9 +1,15 @@
 import { Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Login, Register, Home,NavBar, ProtectedRoute, Banner, ForgotPass, ResetPass } from './components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
+  useEffect(() => {
+    console.log('test');
+    if (!user.isLoggedIn) {
+      console.log('not logged in');
+    }
+  });
 
   const [user, setUser] = useState({
     isLoggedIn: false,
