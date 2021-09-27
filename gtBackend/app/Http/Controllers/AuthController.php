@@ -96,4 +96,9 @@ class AuthController extends Controller
             'message' => __($status)
         ], 500);
     }
+
+    public function me(Request $request)
+    {
+        return $request->user();
+    }
 }

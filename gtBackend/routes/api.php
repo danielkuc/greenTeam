@@ -24,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/search/{name}', [UserController::class, 'show']);

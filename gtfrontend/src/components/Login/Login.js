@@ -5,6 +5,7 @@ import { Formik } from "formik";
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
 import axios from 'axios';
+import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
 
@@ -25,9 +26,9 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await axios.get("http://localhost:8000/sanctum/csrf-cookie", {withCredentials:true}).then(async (request) => 
+      await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
       {
-        await axios.post("http://localhost:8000/api/login", values).then(response => 
+        apiClient.post("/api/login", values).then(response => 
         {
           const {user} = response.data;
           console.log(user);
@@ -35,10 +36,12 @@ const Login = ({ setState }) => {
             isLoggedIn: true,
             details: user
           }));
-          }).then(()=>
-          {
-            history.push("/");
-            setIsLoading(false);
+          // history.push({
+          //   pathname:'/',
+          //   search:`?uid=${user.user_id}`
+          // });
+          history.push('/');
+          setIsLoading(false);
           });
       });
     } catch (error) {
