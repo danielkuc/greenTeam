@@ -11,7 +11,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Models\User;
 use Validator;
 
-
 class AuthController extends Controller
 {
     //login method
@@ -27,9 +26,14 @@ class AuthController extends Controller
         } 
         // if validation passed check if user exists and log in
         else if (Auth::attempt($validator->validated())) {
+            // get the user
+            $user = Auth::user();
+            // create token
+            $token = $user->createToken('session_token')->plainTextToken;
+
             return response()->json([
-                'message' => 'User successfully signed in',
-                'user' => Auth::user()
+                'user' => $user,
+                'token' => $token
             ],200);        
         }
         // if both above conditions fail, return error
@@ -40,10 +44,12 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->user()->tokens()->delete();
+    {   
+        // Auth::logout();
+        $user = Auth::user();
+        $user->tokens()->delete();        
 
+        // $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => 'User successfully signed out'
         ]);
@@ -101,4 +107,5 @@ class AuthController extends Controller
     {
         return $request->user();
     }
+    //
 }

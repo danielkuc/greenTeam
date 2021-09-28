@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Home = () => {
   const fetchUser = async () => {
-    await apiClient.post('/api/me').then(response => 
+    await axios.post('http://localhost:8000/api/me').then(response => 
         console.log(response)
       )
   }
