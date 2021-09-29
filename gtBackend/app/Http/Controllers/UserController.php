@@ -16,8 +16,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
-     public function index()
+    public function index()
     {
         return User::all();
     }
@@ -28,8 +27,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
-     public function store(Request $request)
+    public function store(Request $request)
     {   
         // limit accepted input to only necessary fields.
         $input = $request->only(['first_name', 'last_name', 'email', 'occupation', 'password', 'password_confirmation', 'remember_token']);
@@ -41,7 +39,7 @@ class UserController extends Controller
             'occupation' => 'required|string|between:3,100',
             'password' => 'required|string|confirmed|min:6',
             'password_confirmation' => 'required|string|min:6',
-            'remember_token' => '',
+            'remember_token' => 'boolean',
         ]);
         // check if validation passed, if not throw a validator error and return status 400.
         if($validator->fails()){
@@ -65,8 +63,7 @@ class UserController extends Controller
      * @param  str  $fname
      * @return \Illuminate\Http\Response
      */
-    
-     public function show($name)
+    public function show($name)
     {
         // query DB and return users which first_name or last_name contains $name
         return User::where('first_name', 'like', '%'.$name.'%')->orWhere('last_name', 'like', '%'.$name.'%')->get();
@@ -114,8 +111,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
-     public function destroy($id)
+    public function destroy($id)
     {
         $deleted = User::destroy($id);
 

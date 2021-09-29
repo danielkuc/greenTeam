@@ -26,10 +26,11 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
-      {
-        apiClient.post("/api/login", values).then(response => 
-        {
+      // await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
+      // {
+        apiClient.post("/api/login",values).then(response => 
+        { 
+          console.log(response);
           const {user} = response.data;
           console.log(user);
           setState(prevState => ({
@@ -43,7 +44,7 @@ const Login = ({ setState }) => {
           history.push('/');
           setIsLoading(false);
           });
-      });
+      // });
     } catch (error) {
         setServerError(true);
         console.log(serverError);
