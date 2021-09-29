@@ -32,10 +32,17 @@ class AuthController extends Controller
             // create token
             $token = $user->createToken('session_token')->plainTextToken;
             
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ],200);        
+            // return response()->json([
+            //     'user' => $user,
+            //     'token' => $token
+            // ],200);      
+            $cookie = cookie('token', $token, 0,'/','localhost', false, true);
+            // cookie(
+            //     'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
+            // );  
+            return response([
+                'user'=> $user
+            ],200)->cookie($cookie);
         }
         // if both above conditions fail, return error
         return response()->json([
@@ -46,7 +53,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Auth::logout();
         $request->user()->tokens()->delete();
 
         return response()->json([

@@ -4,7 +4,6 @@ import { Formik } from "formik";
 // Form,
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
-import axios from 'axios';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';

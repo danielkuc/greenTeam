@@ -1,16 +1,9 @@
 import CONTAINER from "./Home.styled";
 import React from 'react';
-import { Button ,Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
-import apiClient from "../../services/api";
-import axios from "axios";
 
 const Home = () => {
-  const fetchUser = async () => {
-    await axios.post('http://localhost:8000/api/me').then(response => 
-        console.log(response)
-      )
-  }
 
   const important = [
     {
@@ -50,10 +43,6 @@ const Home = () => {
     <CONTAINER fluid="sm">
       <Row className="important justify-content-center">
         <p className="h1 text-center pb-4">Key updates</p>
-        <Button
-          variant="primary"
-          onClick={fetchUser}
-        >Click</Button>
         {
           important.map((article, index) => {return(
             <Col key={index} sm={10} lg={4}>
