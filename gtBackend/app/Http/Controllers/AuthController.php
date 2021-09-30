@@ -36,7 +36,7 @@ class AuthController extends Controller
             //     'user' => $user,
             //     'token' => $token
             // ],200);      
-            $cookie = cookie('token', $token, 0,'/','localhost', false, true);
+            $cookie = cookie('token', $token, 0,'/','localhost', false, false);
             // cookie(
             //     'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
             // );  
