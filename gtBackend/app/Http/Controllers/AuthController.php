@@ -29,20 +29,10 @@ class AuthController extends Controller
         else if (Auth::attempt($validator->validated())) {
             // get the user
             $user = $request->user();
-            // create token
-            $token = $user->createToken('session_token')->plainTextToken;
-            
-            // return response()->json([
-            //     'user' => $user,
-            //     'token' => $token
-            // ],200);      
-            $cookie = cookie('token', $token, 0,'/','localhost', false, false);
-            // cookie(
-            //     'name', 'value', $minutes, $path, $domain, $secure, $httpOnly
-            // );  
+
             return response([
                 'user'=> $user
-            ],200)->cookie($cookie);
+            ],200);
         }
         // if both above conditions fail, return error
         return response()->json([

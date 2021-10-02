@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
+import axios from 'axios';
 
 
 // SETSTATE THROWING A UNMOUNTEND COMPONENT STATE ERROR, TO DO!!! CANCELL ALL SUBSCRIPTIONS AND ASSYNCS IN USEEFFECT CLEANUP
@@ -25,9 +26,9 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      // await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
-      // {
-        apiClient.post("/api/login",values).then(response => 
+      await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
+      {
+        apiClient.post("/login",values).then(response => 
         { 
           console.log(response);
           const {user} = response.data;
@@ -43,7 +44,7 @@ const Login = ({ setState }) => {
           history.push('/');
           setIsLoading(false);
           });
-      // });
+      });
     } catch (error) {
         setServerError(true);
         console.log(serverError);

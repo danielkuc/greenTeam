@@ -63,10 +63,11 @@ class UserController extends Controller
      * @param  str  $fname
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
-    {
-        // query DB and return users which first_name or last_name contains $name
-        return User::where('first_name', 'like', '%'.$name.'%')->orWhere('last_name', 'like', '%'.$name.'%')->get();
+    public function show(Request $request)
+    {   
+        $user = $request->user();
+
+        return response()->json(['user' => $user], 200);
     }
 
     /**

@@ -3,19 +3,21 @@ import React from 'react';
 import { Button,Card, Col, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import axios from "axios";
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 const Home = () => {
 
   const fetchUser = async () => {
-    const token = Cookies.get('token');
+    // const token = Cookies.get('token');
     // no other axios method will set Authorization header properly
     // DO NOT change this code to method alias like : axios.post(), it WILL NOT set header properly
-    await axios({
-      method:'post',
-      url: 'http://localhost:8000/api/me',
-      headers:{'Authorization': `Bearer ${token}`}
-    }).then(response => console.log(response.data));
+    // await axios({
+    //   method:'post',
+    //   url: 'http://localhost:8000/api/user',
+    //   headers:{'Authorization': `Bearer ${token}`}
+    // }).then(response => console.log(response.data));
+
+    await axios.get('http://localhost:8000/user', {withCredentials:true}).then(response => console.log(response))
   }
 
   const important = [
