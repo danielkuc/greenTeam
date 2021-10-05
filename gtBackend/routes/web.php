@@ -18,8 +18,6 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::post('/register', [UserController::class, 'store']);
 
 
@@ -30,5 +28,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/remove/{id}', [UserController::class, 'destroy']);
     Route::get('/user', [UserController::class, 'show']);
     Route::post('/logout', [AuthController::class, 'logout']);
-
 });
