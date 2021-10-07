@@ -1,20 +1,21 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Login, Register, Home,NavBar, ProtectedRoute, Banner, ForgotPass, ResetPass } from './components';
 import { useState } from 'react';
 
 function App() {
+
   const [user, setUser] = useState({
     isLoggedIn: false,
     details:{}
   });
   return (
     <>
-      {user.isLoggedIn ? <NavBar state={user.isLoggedIn} user={user} /> : <Banner />}
+      {/* {user.isLoggedIn ? <NavBar state={user.isLoggedIn} user={user} /> : <Banner />} */}
+      <NavBar state={user.isLoggedIn} user={user} />
       <Switch>
         {/* user redirected to home from login, if path change here, change in login component as well */}
-        <ProtectedRoute exact path="/" component={Home} isLoggedIn={user.isLoggedIn} />
-        {/* <Route exact path="/" component={Home} isLoggedIn={user.isLoggedIn} /> */}
+        <ProtectedRoute exact path="/" component={Home} loginState={user.isLoggedIn} setState={setUser} />
         <Route exact path="/login" render={(props) => <Login {...props} setState={setUser} />} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forgot-password" component={ForgotPass} />

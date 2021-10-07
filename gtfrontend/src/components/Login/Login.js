@@ -26,21 +26,15 @@ const Login = ({ setState }) => {
   const handleSubmit = async (values) => {
     setIsLoading(true);
     try {
-      await apiClient.get("/sanctum/csrf-cookie").then( (request) => 
+      await apiClient.get("/sanctum/csrf-cookie").then( response => 
       {
         apiClient.post("/login",values).then(response => 
         { 
-          console.log(response);
           const {user} = response.data;
-          console.log(user);
           setState(prevState => ({
             isLoggedIn: true,
             details: user
           }));
-          // history.push({
-          //   pathname:'/',
-          //   search:`?uid=${user.user_id}`
-          // });
           history.push('/');
           setIsLoading(false);
           });
