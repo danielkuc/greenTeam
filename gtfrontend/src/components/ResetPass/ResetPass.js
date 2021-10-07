@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import { default as Banner } from '../Banner';
 
 const ResetPass = () => {
 
@@ -45,6 +46,8 @@ const ResetPass = () => {
   }
 
   return (
+    <>
+    <Banner />
     <CONTAINER fluid="sm">
       <Modal
         show={show}
@@ -189,6 +192,7 @@ const ResetPass = () => {
         </Col>
       </Row>
     </CONTAINER>
+    </>
   )
 }
 

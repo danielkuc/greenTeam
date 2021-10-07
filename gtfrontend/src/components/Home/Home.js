@@ -1,24 +1,10 @@
 import CONTAINER from "./Home.styled";
 import React from 'react';
-import { Button,Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
-import axios from "axios";
-// import Cookies from 'js-cookie';
+import { default as NavBar } from '../Navigation';
 
 const Home = () => {
-
-  const fetchUser = async () => {
-    // const token = Cookies.get('token');
-    // no other axios method will set Authorization header properly
-    // DO NOT change this code to method alias like : axios.post(), it WILL NOT set header properly
-    // await axios({
-    //   method:'post',
-    //   url: 'http://localhost:8000/api/user',
-    //   headers:{'Authorization': `Bearer ${token}`}
-    // }).then(response => console.log(response.data));
-
-    await axios.get('http://localhost:8000/user', {withCredentials:true}).then(response => console.log(response))
-  }
 
   const important = [
     {
@@ -55,15 +41,9 @@ const Home = () => {
   ];
 
   return (
+    <>
+    <NavBar />
     <CONTAINER fluid="sm">
-
-      <Button
-        variant = "primary"
-        onClick={fetchUser}
-      >
-        Fetch
-      </Button>
-
       <Row className="important justify-content-center">
         <p className="h1 text-center pb-4">Key updates</p>
         {
@@ -104,6 +84,7 @@ const Home = () => {
         }
       </Row>      
     </CONTAINER>
+    </>
   )
 }
 

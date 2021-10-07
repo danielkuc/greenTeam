@@ -6,8 +6,8 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { CONTAINER, MODAL } from './Register.styled';
-import { Row, Col, Card, Button, Modal } from 'react-bootstrap';
-import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { default as Banner } from '../Banner';
 
 const Register = () => {
   // Submit button state, display message for user while performing a request
@@ -38,6 +38,8 @@ const Register = () => {
   };
 
   return(
+    <>
+    <Banner />
     <CONTAINER fluid="sm">
       <MODAL 
         show={show}
@@ -238,6 +240,7 @@ const Register = () => {
         </Col>
       </Row>
     </CONTAINER>
+    </>
   );
 
 }

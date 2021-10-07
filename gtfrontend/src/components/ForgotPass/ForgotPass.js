@@ -5,6 +5,8 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 import CONTAINER from './ForgotPass.styled';
 import axios from 'axios';
+import { default as Banner } from '../Banner';
+
 
 const ForgotPass = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +27,8 @@ const ForgotPass = () => {
   }
 
   return (
+    <>
+    <Banner />
     <CONTAINER fluid="sm">
       <Row className="justify-content-center">
         <Col md={5}>
@@ -92,6 +96,7 @@ const ForgotPass = () => {
         </Col>
       </Row>
     </CONTAINER>
+    </>
   )
 }
 

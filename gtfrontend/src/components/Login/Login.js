@@ -4,14 +4,19 @@ import { Formik } from "formik";
 // Form,
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
+import { useUserState, useLoginState } from '../../state';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
-import axios from 'axios';
-
+import { default as Banner } from '../Banner';
 
 // SETSTATE THROWING A UNMOUNTEND COMPONENT STATE ERROR, TO DO!!! CANCELL ALL SUBSCRIPTIONS AND ASSYNCS IN USEEFFECT CLEANUP
-const Login = ({ setState }) => {
+const Login = () => {
+  // access to state context, deconstructed.
+  const { user, setUser } = useUserState();
+  const { isLoggedIn, setIsLoggedIn } = useLoginState();
+
+
   const [serverError, setServerError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,11 +35,13 @@ const Login = ({ setState }) => {
       {
         apiClient.post("/login",values).then(response => 
         { 
-          const {user} = response.data;
-          setState(prevState => ({
-            isLoggedIn: true,
-            details: user
-          }));
+          // const {user} = response.data;
+          setUser(response.data.user);
+          setIsLoggedIn(true);
+          // setState(prevState => ({
+          //   isLoggedIn: true,
+          //   details: user
+          // }));
           history.push('/');
           setIsLoading(false);
           });
@@ -44,10 +51,10 @@ const Login = ({ setState }) => {
         console.log(serverError);
     }
   };
-  // 7430164417
-
 
   return (
+    <>
+    <Banner/>
     <Container fluid="sm">
       <Row className="justify-content-center">
         <Col md={5}>
@@ -144,6 +151,7 @@ const Login = ({ setState }) => {
         </Col>
       </Row>
     </Container>
+    </>
   )
 }
 
