@@ -1,7 +1,7 @@
 import CONTAINER from "./Home.styled";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from "react-router-dom";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Row, Modal } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import { default as NavBar } from '../Navigation';
 import axios from "axios";
@@ -12,6 +12,7 @@ const Home = () => {
   const { setIsLoggedIn } = useLoginState();
   const history = useHistory();  
   const location = useLocation();
+  const [loadingModal, setLoadingModal] = useState(true);
   
   useEffect(() => {
     (async () => {
@@ -21,12 +22,14 @@ const Home = () => {
           console.log(response);
           setIsLoggedIn(true);
           setUser(response.data.user);
+          setLoadingModal(false);
           history.push(location.pathname);          
         })
       .catch(error => 
           {
             setIsLoggedIn(false);
             setUser({});
+            setLoadingModal(false);
             history.push('/');
           });
 
@@ -71,6 +74,10 @@ const Home = () => {
 
   return (
     <>
+    <Modal  
+      show={loadingModal}
+      fullscreen={true}
+    />
     <NavBar />
     <CONTAINER fluid="sm">
       <Row className="important justify-content-center">
