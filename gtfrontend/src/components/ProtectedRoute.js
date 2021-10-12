@@ -32,7 +32,7 @@ const ProtectedRoute = ({loginState,setState, component:Component, ...restOfProp
     <Route
       {...restOfProps}
       render={(props) => 
-        loginState ? <Component {...props} /> : <Redirect to="/login"/>
+        loginState ? <Component {...props} /> : <Redirect to="/"/>
       } 
     />   
   )

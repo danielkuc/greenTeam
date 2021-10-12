@@ -13,8 +13,8 @@ import { default as Banner } from '../Banner';
 // SETSTATE THROWING A UNMOUNTEND COMPONENT STATE ERROR, TO DO!!! CANCELL ALL SUBSCRIPTIONS AND ASSYNCS IN USEEFFECT CLEANUP
 const Login = () => {
   // access to state context, deconstructed.
-  const { user, setUser } = useUserState();
-  const { isLoggedIn, setIsLoggedIn } = useLoginState();
+  const { setUser } = useUserState();
+  const { setIsLoggedIn } = useLoginState();
 
 
   const [serverError, setServerError] = useState(false);
@@ -35,15 +35,10 @@ const Login = () => {
       {
         apiClient.post("/login",values).then(response => 
         { 
-          // const {user} = response.data;
           setUser(response.data.user);
           setIsLoggedIn(true);
-          // setState(prevState => ({
-          //   isLoggedIn: true,
-          //   details: user
-          // }));
-          history.push('/');
           setIsLoading(false);
+          history.push('/dashboard');
           });
       });
     } catch (error) {

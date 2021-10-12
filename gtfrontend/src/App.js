@@ -11,12 +11,11 @@ function App() {
       <GlobalState>
         <Switch>
           {/* user redirected to home from login, if path change here, change in login component as well */}
-          <Route exact path="/" component={Home} />
-          {/* <Route exact path="/login" render={(props) => <Login {...props} setState={setUser} />} /> */}
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/forgot-password" component={ForgotPass} />
           <Route exact path="/reset-password" component={ResetPass} />
+          <Route exact path="/dashboard" component={Home} />
         </Switch>
       </GlobalState>
     </>

@@ -233,7 +233,7 @@ const Register = () => {
             {/* FOOTER */}
             <Card.Footer className="py-3">
               <div className="d-flex justify-content-center links">
-                 Already have an account?<Link to="/login">Sign In</Link>
+                 Already have an account?<Link to="/">Sign In</Link>
               </div>
             </Card.Footer>
           </Card>

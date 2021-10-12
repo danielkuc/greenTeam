@@ -1,10 +1,35 @@
 import CONTAINER from "./Home.styled";
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from "react-router-dom";
 import { Card, Col, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import { default as NavBar } from '../Navigation';
+import axios from "axios";
+import { useLoginState, useUserState } from "../../state";
 
 const Home = () => {
+  const { setUser } = useUserState();
+  const { setIsLoggedIn } = useLoginState();
+  const history = useHistory();  
+  const location = useLocation();
+  
+  useEffect(() => {
+    (async () => {
+      await axios.get('http://localhost:8000/user', {withCredentials: true})
+      .then(response => 
+        {
+          console.log(response);
+        })
+      .catch(error => 
+          {
+            console.log(error);
+            console.log('fail');
+          });
+
+    })();
+  },[])
+
+
 
   const important = [
     {
