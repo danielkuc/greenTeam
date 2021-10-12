@@ -19,11 +19,15 @@ const Home = () => {
       .then(response => 
         {
           console.log(response);
+          setIsLoggedIn(true);
+          setUser(response.data.user);
+          history.push(location.pathname);          
         })
       .catch(error => 
           {
-            console.log(error);
-            console.log('fail');
+            setIsLoggedIn(false);
+            setUser({});
+            history.push('/');
           });
 
     })();
