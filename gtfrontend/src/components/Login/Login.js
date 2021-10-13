@@ -10,7 +10,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
 import { default as Banner } from '../Banner';
 
-// SETSTATE THROWING A UNMOUNTEND COMPONENT STATE ERROR, TO DO!!! CANCELL ALL SUBSCRIPTIONS AND ASSYNCS IN USEEFFECT CLEANUP
 const Login = () => {
   // access to state context, deconstructed.
   const { setUser } = useUserState();

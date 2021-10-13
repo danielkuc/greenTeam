@@ -1,42 +1,8 @@
-import CONTAINER from "./Home.styled";
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from "react-router-dom";
-import { Card, Col, Row, Modal } from "react-bootstrap";
-import CardHeader from "react-bootstrap/esm/CardHeader";
-import { default as NavBar } from '../Navigation';
-import axios from "axios";
-import { useLoginState, useUserState } from "../../state";
+import CONTAINER from "./Articles.styled";
+import React from 'react';
+import { Card, Col, Row } from "react-bootstrap";
 
-const Home = () => {
-  const { setUser } = useUserState();
-  const { setIsLoggedIn } = useLoginState();
-  const history = useHistory();  
-  const location = useLocation();
-  const [loadingModal, setLoadingModal] = useState(true);
-  
-  useEffect(() => {
-    (async () => {
-      await axios.get('http://localhost:8000/user', {withCredentials: true})
-      .then(response => 
-        {
-          console.log(response);
-          setIsLoggedIn(true);
-          setUser(response.data.user);
-          setLoadingModal(false);
-          history.push(location.pathname);          
-        })
-      .catch(error => 
-          {
-            setIsLoggedIn(false);
-            setUser({});
-            setLoadingModal(false);
-            history.push('/');
-          });
-
-    })();
-  },[])
-
-
+const Articles = () => {
 
   const important = [
     {
@@ -72,13 +38,9 @@ const Home = () => {
     }
   ];
 
+
   return (
     <>
-    <Modal  
-      show={loadingModal}
-      fullscreen={true}
-    />
-    <NavBar />
     <CONTAINER fluid="sm">
       <Row className="important justify-content-center">
         <p className="h1 text-center pb-4">Key updates</p>
@@ -86,11 +48,11 @@ const Home = () => {
           important.map((article, index) => {return(
             <Col key={index} sm={10} lg={4}>
             <Card>
-                <CardHeader>
+                <Card.Header>
                   <Card.Title>
                     {`${article.headline}`}
                   </Card.Title>
-                </CardHeader>
+                </Card.Header>
                 <Card.Body>
                   {`${article.body}`}
                 </Card.Body>
@@ -105,11 +67,11 @@ const Home = () => {
           minor.map((article, index) => { return(
             <Col key={index} sm={10} lg={3}>
               <Card>
-                <CardHeader>
+                <Card.Header>
                   <Card.Title>
                     {`${article.head}`}
                   </Card.Title>
-                </CardHeader>
+                </Card.Header>
                 <Card.Body>
                   {`${article.body}`}
                 </Card.Body>
@@ -124,4 +86,4 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Articles
