@@ -3,44 +3,53 @@ import axios from "axios";
 import { Switch, Route,useHistory, useLocation } from "react-router-dom";
 import { default as NavBar } from '../Navigation';
 import { useLoginState, useUserState } from "../../state";
-import { Modal, Spinner } from "react-bootstrap";
-import { Articles } from '../../components';
+import { Modal } from "react-bootstrap";
+import { Articles, Bonus } from '../../components';
 
 const DashLayout = () => {
   const { setUser } = useUserState();
-  const { setIsLoggedIn } = useLoginState();
+  const { IsLoggedIn, setIsLoggedIn } = useLoginState();
   const history = useHistory();  
   const location = useLocation();
-  const [modal, setModal] = useState(true);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    (async () => {
-      await axios.get('http://localhost:8000/user', {withCredentials: true})
-      .then(response => 
-        {
-          setIsLoggedIn(true);
-          setUser(response.data.user);
-          setModal(false);
-          history.push(location.pathname);          
-        })
-      .catch(error => 
+    if (!IsLoggedIn) 
+    {
+      (async () => 
+      {
+        await axios.get('http://localhost:8000/user', {withCredentials: true})
+        .then(response => 
+          {
+            setIsLoggedIn(true);
+            setUser(response.data.user);
+            setLoading(false);
+            history.push(location.pathname);          
+          })
+        .catch(error => 
           {
             setIsLoggedIn(false);
             setUser({});
-            setModal(false);
+            setLoading(false);
             history.push('/');
           });
-
-    })();
+      })();
+    
+    }
   },[])
 
 
-  if (!modal) {
+  if (!loading) {
     return (
       <>
         <NavBar />
         <Switch>
           <Route exact path="/dashboard" component={Articles} />
+          <Route exact path="/dashboard/bonus" component={Bonus} />
+          <Route exact path="/dashboard/bonus" render={(props) => (
+              <Bonus {...props} loading={loading} />
+            )}
+          />
         </Switch>
       </>
     )    
@@ -50,11 +59,9 @@ const DashLayout = () => {
     <>
     <Modal 
       animation={false} 
-      show={modal}
+      show={loading}
       fullscreen={true}
     />
-      <Spinner animation="border" role="status" />
-      LOADING...
     </>
   )
 }
