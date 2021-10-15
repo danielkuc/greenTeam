@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\ResetPasswordNotification;
@@ -14,7 +15,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
+    /** 
      * The attributes that are mass assignable.
      *
      * @var array
@@ -26,6 +27,16 @@ class User extends Authenticatable
         'occupation',
         'password',
     ];
+
+    /**
+     * Get all of the Bonus for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function usersBonus()
+    {
+        return $this->hasMany(Bonus::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,7 +56,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-        // override default notification
+        
+    /**
+     * 
+     * Overridden default notification.
+     */
+
     public function sendPasswordResetNotification($token)
     {
         $url = "http://localhost:3000/reset-password?token=" . $token;

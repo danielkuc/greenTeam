@@ -16,8 +16,12 @@ class CreateBonusesTable extends Migration
         Schema::create('bonuses', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('twoforone');
-            $table->timestamps();
+            $table->unsignedTinyInteger('bogof');
+            $table->unsignedTinyInteger('designer_frames');
+            $table->unsignedTinyInteger('coatings');
+            $table->unsignedMediumInteger('cx_number');
+            $table->date('bonus_date');
+            $table->timestamps('created_at');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
