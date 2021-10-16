@@ -33,7 +33,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function usersBonus()
+    public function userBonus()
     {
         return $this->hasMany(Bonus::class);
     }
