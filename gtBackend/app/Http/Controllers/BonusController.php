@@ -36,14 +36,27 @@ class BonusController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['bogof', 'designer_frames', 'coatings', 'cx_number', 'bonus_date']);
+        $input = $request->only(['user_id','bogof', 'designer_frames', 'coatings', 'cx_number', 'bonus_date']);
         $validator = Validator::make($input, [
             'bogof' => 'integer',
             'designer_frames' => 'integer',
             'coatings' => 'integer',
-            'cx_number' => 'integer',
-            'bonus_date' => 'date'
+            'cx_number' => 'required|integer',
+            'bonus_date' => 'required|date'
         ]);
+        // check if validation passed, if not throw a validator error and return status 400.
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 403);
+        }
+        // if validation passed, create new Bonus entry in DB
+        Bonus::create([array_merge(
+            $validator->validated(),
+            ['user_id' =>$request->user_id] 
+        )]);
+        // returne stattus 201 -created and a successful message.
+        return response()->json([
+            'message' => 'resource successfully created'
+        ],201);
     }
 
     /**
