@@ -5,6 +5,7 @@ import { Login, Register, ResetPass, ForgotPass, Banner } from '../../components
 const AuthLayout = () => {
   return (
     <>
+      <Banner />
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/register" component={Register} />

@@ -28,7 +28,6 @@ const ForgotPass = () => {
 
   return (
     <>
-    <Banner />
     <CONTAINER fluid="sm">
       <Row className="justify-content-center">
         <Col md={5}>

@@ -48,7 +48,6 @@ const Login = () => {
 
   return (
     <>
-    <Banner/>
     <Container fluid="sm">
       <Row className="justify-content-center">
         <Col md={5}>

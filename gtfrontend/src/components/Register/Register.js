@@ -39,7 +39,6 @@ const Register = () => {
 
   return(
     <>
-    <Banner />
     <CONTAINER fluid="sm">
       <MODAL 
         show={show}

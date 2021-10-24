@@ -47,7 +47,6 @@ const ResetPass = () => {
 
   return (
     <>
-    <Banner />
     <CONTAINER fluid="sm">
       <Modal
         show={show}
