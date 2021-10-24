@@ -10,7 +10,7 @@ function App() {
     <>
       <GlobalState>
         <Switch>
-          <Route exact path="/" component={AuthLayout} />
+          <Route path="/" component={AuthLayout} />
           <Route path="/dashboard" component={DashLayout} />
         </Switch>
       </GlobalState>

@@ -1,15 +1,15 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
-import { Login, Register, ResetPass, ForgotPass } from '../../components';
+import { Login, Register, ResetPass, ForgotPass, Banner } from '../../components';
 
 const AuthLayout = () => {
   return (
     <>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset-password" component={ResetPass} />
-        <Route path="/forgot-password" component={ForgotPass} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/reset-password" component={ResetPass} />
+        <Route exact path="/forgot-password" component={ForgotPass} />
       </Switch>
     </>
   )
