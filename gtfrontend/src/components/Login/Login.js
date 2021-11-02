@@ -8,7 +8,6 @@ import { useUserState, useLoginState } from '../../state';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
-import { default as Banner } from '../Banner';
 
 const Login = () => {
   // access to state context, deconstructed.
@@ -32,7 +31,7 @@ const Login = () => {
     try {
       await apiClient.get("/sanctum/csrf-cookie").then( response => 
       {
-        apiClient.post("/login",values).then(response => 
+        apiClient.post("login",values).then(response => 
         { 
           setUser(response.data.user);
           setIsLoggedIn(true);

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 // Yup - JS schema builder for validation and value parsing
 import * as Yup from 'yup';
-import axios from 'axios';
 // formik - open source form library for React
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { CONTAINER, MODAL } from './Register.styled';
 import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
-import { default as Banner } from '../Banner';
+import apiClient from '../../services/api';
 
 const Register = () => {
   // Submit button state, display message for user while performing a request
@@ -26,13 +25,20 @@ const Register = () => {
 
   const handleSubmit = async (values) => {
     setIsLoading(true)
-    try {
-      await axios.post('http://localhost:8000/register', values).then(response => {
-        return response.json();
-      });
-      setIsLoading(false);
-      setShow(true);
-    } catch (error) {
+    try 
+    {
+      await apiClient.get("/sanctum/csrf-cookie").then(response =>{
+        apiClient.post('register', values).then(response => 
+        {
+          console.log(response);
+          return response
+        });
+        setIsLoading(false);
+        setShow(true);
+    });
+    } 
+    catch (error) 
+    {
       setIsLoading(false)
     }    
   };
@@ -56,7 +62,7 @@ const Register = () => {
               to access your account.
         </Modal.Body>
         <Modal.Footer >
-          <Link to="/login" className="mx-auto">
+          <Link to="/home" className="mx-auto">
             <Button variant="warning" >Sign In</Button>
           </Link>
         </Modal.Footer>
