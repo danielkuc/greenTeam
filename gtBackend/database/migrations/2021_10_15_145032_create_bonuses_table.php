@@ -15,7 +15,7 @@ class CreateBonusesTable extends Migration
     {
         Schema::create('bonuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('user_id');
             $table->unsignedTinyInteger('bogof')->nullable();
             $table->unsignedTinyInteger('designer_frames')->nullable();
             $table->unsignedTinyInteger('coatings')->nullable();

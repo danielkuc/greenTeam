@@ -24,7 +24,8 @@ Route::post('/register', [UserController::class, 'store']);
 // get method append to URL
 
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () 
+{
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/search/{name}', [UserController::class, 'show']);
     Route::put('users/update/{id}', [UserController::class, 'update']);
