@@ -4,7 +4,6 @@ import CardHeader from 'react-bootstrap/esm/CardHeader';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import CONTAINER from './ForgotPass.styled';
-import axios from 'axios';
 import apiClient from '../../services/api';
 
 const ForgotPass = () => {
@@ -18,7 +17,7 @@ const ForgotPass = () => {
     setIsLoading(true);
     try {
       await apiClient.get("/sanctum/csrf-cookie").then(response => {
-        axios.post('http://localhost:8000/forgot-password', values);
+        apiClient.post('forgot-password', values);
         setIsLoading(false);
         setDisplay(true);
       });

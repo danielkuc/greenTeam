@@ -3,13 +3,13 @@ import { Button, Col, Row, Card, Form, FloatingLabel, FormControl, Modal } from 
 import CONTAINER from './ResetPass.styled';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
-import { default as Banner } from '../Banner';
+import apiClient from '../../services/api';
 
 const ResetPass = () => {
 
   const search= useLocation().search;
+  // extract token from forgot-password URL, do not remove or modify.
   const token = new URLSearchParams(search).get('token');
 
   const validator = yup.object({
@@ -29,16 +29,20 @@ const ResetPass = () => {
   
   const handleSubmit = async (values) => {
     setIsLoading(true);
+
+    // extracted token and values are sent to back end for validation, do not remove or modify token
     const credentials = {
       ...values,
       'token': token
     } 
     try {
-      await axios.post('http://localhost:8000/api/reset-password', credentials).then(response => {
-        if (response.status === 200) {
-          setIsLoading(false)
-          handleShow();
-        }
+      await apiClient.get("/sanctum/csrf-cookie").then(response => {
+        apiClient.post('reset-password', credentials).then(response => {
+          if (response.status === 200) {
+            setIsLoading(false)
+            handleShow();
+          }
+        });
       });
     } catch (error) {
       console.log(error);      
@@ -63,7 +67,7 @@ const ResetPass = () => {
           Password reset successfully, please Sign in to access your account.
         </Modal.Body>
         <Modal.Footer>
-          <Link to="/login">
+          <Link to="/home">
             <Button
               variant="warning"
             >
