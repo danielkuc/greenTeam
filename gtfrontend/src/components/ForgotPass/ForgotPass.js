@@ -5,8 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 import CONTAINER from './ForgotPass.styled';
 import axios from 'axios';
-import { default as Banner } from '../Banner';
-
+import apiClient from '../../services/api';
 
 const ForgotPass = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +17,11 @@ const ForgotPass = () => {
   const handleSubmit =  async (values) => {
     setIsLoading(true);
     try {
-      await axios.post('http://localhost:8000/api/forgot-password', values);
-      setIsLoading(false);
-      setDisplay(true);
+      await apiClient.get("/sanctum/csrf-cookie").then(response => {
+        axios.post('http://localhost:8000/forgot-password', values);
+        setIsLoading(false);
+        setDisplay(true);
+      });
     } catch (error) {
       setIsLoading(false);      
     }
