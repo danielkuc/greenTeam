@@ -13,15 +13,14 @@ class CreateBonusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bonus', function (Blueprint $table) {
+        Schema::create('bonuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->unsignedTinyInteger('bogof')->nullable();
             $table->unsignedTinyInteger('designer_frames')->nullable();
             $table->unsignedTinyInteger('coatings')->nullable();
             $table->unsignedMediumInteger('cx_number')->nullable();
             $table->date('bonus_date');
-            $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

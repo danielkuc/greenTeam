@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { GlobalState } from './state';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthLayout, DashLayout } from './components';
@@ -10,7 +10,10 @@ function App() {
     <>
       <GlobalState>
         <Switch>
-          <Route path="/" component={AuthLayout} />
+          <Route path="/home" component={AuthLayout} />
+          <Route exact path="/">
+            <Redirect to="/home"/>
+          </Route>
           <Route path="/dashboard" component={DashLayout} />
         </Switch>
       </GlobalState>

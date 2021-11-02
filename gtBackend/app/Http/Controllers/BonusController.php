@@ -42,20 +42,21 @@ class BonusController extends Controller
             'designer_frames' => 'integer',
             'coatings' => 'integer',
             'cx_number' => 'required|integer',
-            'bonus_date' => 'required|date'
+            'bonus_date' => 'required|date|unique:bonuses'
         ]);
         // check if validation passed, if not throw a validator error and return status 400.
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 403);
         }
         // if validation passed, create new Bonus entry in DB
-        Bonus::create([array_merge(
+        $bonus = Bonus::create(array_merge(
             $validator->validated(),
-            ['user_id' =>$request->user_id] 
-        )]);
-        // returne stattus 201 -created and a successful message.
+            ['user_id' => $request->user_id] 
+        ));
+        // return status 201 -created and a successful message.
         return response()->json([
-            'message' => 'resource successfully created'
+            'message' => 'resource successfully created',
+            'request' => $bonus
         ],201);
     }
 

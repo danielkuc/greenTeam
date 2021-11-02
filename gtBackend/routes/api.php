@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BonusController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -19,3 +21,7 @@ use App\Http\Controllers\AuthController;
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/bonus', [BonusController::class, 'store']);
+Route::post('/register', [UserController::class, 'store']);
+
+

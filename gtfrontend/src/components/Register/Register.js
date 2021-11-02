@@ -27,7 +27,7 @@ const Register = () => {
   const handleSubmit = async (values) => {
     setIsLoading(true)
     try {
-      await axios.post('http://localhost:8000/api/register', values).then(response => {
+      await axios.post('http://localhost:8000/register', values).then(response => {
         return response.json();
       });
       setIsLoading(false);

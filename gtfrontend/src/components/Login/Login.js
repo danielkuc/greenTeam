@@ -134,10 +134,10 @@ const Login = () => {
             {/* FOOTER */}
             <Card.Footer className="py-3">
               <div className="d-flex justify-content-center links">
-                 Don't have an account?<Link to="/register">Sign Up</Link>
+                 Don't have an account?<Link to="/home/register">Sign Up</Link>
               </div>
               <div className="d-flex justify-content-center">
-                <Link to="/forgot-password">Forgot your password?</Link>
+                <Link to="/home/forgot-password">Forgot your password?</Link>
               </div>
             </Card.Footer>
           </CARD>

@@ -4,7 +4,7 @@ import { Switch, Route,useHistory, useLocation } from "react-router-dom";
 import { default as NavBar } from '../Navigation';
 import { useLoginState, useUserState } from "../../state";
 import { Modal } from "react-bootstrap";
-import { Articles, Bonus } from '../../components';
+import { Articles, BonusLayout } from '../../components';
 
 const DashLayout = () => {
   const { setUser } = useUserState();
@@ -45,11 +45,11 @@ const DashLayout = () => {
         <NavBar />
         <Switch>
           <Route exact path="/dashboard" component={Articles} />
-          {/* <Route exact path="/dashboard/bonus" component={Bonus} /> */}
+          {/* <Route exact path="/dashboard/bonus" component={BonusLayout} /> */}
           <Route exact path="/dashboard/bonus" render={(props) => (
-              <Bonus {...props} loading={loading} />
-            )}
-          />
+              <BonusLayout {...props} loading={loading} />
+             )}
+          /> 
         </Switch>
       </>
     )    

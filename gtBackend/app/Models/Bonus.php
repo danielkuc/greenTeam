@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bonus extends Model
 {
+    public $timestamps = false;
     use HasFactory;
 
     protected $fillable = [
@@ -14,7 +15,8 @@ class Bonus extends Model
         'designer_frames',
         'coatings',
         'cx_number',
-        'bonus_date'
+        'bonus_date',
+        'user_id'
     ];
 
     /**
