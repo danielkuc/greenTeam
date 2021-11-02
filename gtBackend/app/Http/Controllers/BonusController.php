@@ -42,7 +42,7 @@ class BonusController extends Controller
             'designer_frames' => 'integer',
             'coatings' => 'integer',
             'cx_number' => 'required|integer',
-            'bonus_date' => 'required|date|unique:bonuses'
+            'bonus_date' => 'required|date|'
         ]);
         // check if validation passed, if not throw a validator error and return status 400.
         if($validator->fails()){
