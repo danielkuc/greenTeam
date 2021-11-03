@@ -18,7 +18,7 @@ const Login = () => {
   const [serverError, setServerError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  let history = useHistory();
+  const history = useHistory();
   // validation schema using Yup
   const validator = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email required'),
@@ -49,7 +49,7 @@ const Login = () => {
     <>
     <Container fluid="sm">
       <Row className="justify-content-center">
-        <Col md={5}>
+        <Col md={7} lg={6} xl={5}>
           <CARD>
             <Card.Header className="py-3">
               <Card.Title>Sign In</Card.Title>

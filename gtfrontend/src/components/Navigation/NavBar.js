@@ -1,14 +1,24 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useUserState, useLoginState } from "../../state";
+import apiClient from '../../services/api';
 
 const NavBar = () => {
 
   // access to state context, deconstructed.
     const { user, setUser } = useUserState();
-    const { loggedIn, setLoggedIn } = useLoginState();
+    const { isLoggedIn, setIsLoggedIn } = useLoginState();
     const { first_name, last_name } = user;
+    const history = useHistory();
+
+    const handleLogout = async () => {
+        await apiClient.post('logout');
+        history.push('/home');
+        setIsLoggedIn(false);
+        setUser({});
+    }
+
   return (
     <>
       <Navbar collapseOnSelect expand="md" bg="success" variant="dark" className={`mb-5 mt-3 `}>
@@ -25,7 +35,7 @@ const NavBar = () => {
               <Navbar.Text>
                 Signed in as: <Link to="/account">{`${first_name} ${last_name}`}</Link>
               </Navbar.Text>
-                <Nav.Link>Logout</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
