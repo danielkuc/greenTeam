@@ -22,6 +22,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+Route::post('/logout', [AuthController::class, 'logout']);
 
 // get method append to URL
 
@@ -33,5 +34,4 @@ Route::middleware(['auth:sanctum'])->group(function ()
     Route::put('users/update/{id}', [UserController::class, 'update']);
     Route::delete('/remove/{id}', [UserController::class, 'destroy']);
     Route::get('/user', [UserController::class, 'show']);
-    Route::post('/logout', [AuthController::class, 'logout']);
 });

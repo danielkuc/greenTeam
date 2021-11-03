@@ -8,7 +8,7 @@ const NavBar = () => {
 
   // access to state context, deconstructed.
     const { user, setUser } = useUserState();
-    const { isLoggedIn, setIsLoggedIn } = useLoginState();
+    const { setIsLoggedIn } = useLoginState();
     const { first_name, last_name } = user;
     const history = useHistory();
 
