@@ -6,7 +6,7 @@ export { default as DashLayout } from './DashLayout';
 export { default as NavBar } from '../components/Navigation';
 export { default as Banner } from '../components/Banner';
 export { default as BonusLayout } from '../components/BonusLayout';
-export { default as NewBonus } from '../components/NewBonus';
 export { default as ForgotPass } from '../components/ForgotPass';
 export { default as ResetPass } from '../components/ResetPass';
 export { default as ProtectedRoute } from './ProtectedRoute';
+export { default as AddBonus} from '../components/AddBonus'
