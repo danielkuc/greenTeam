@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Row, FloatingLabel, FormControl } from 'react-
 import CardHeader from 'react-bootstrap/esm/CardHeader';
 import { Formik } from 'formik';
 import * as yup from 'yup'
-import CONTAINER from './ForgotPass.styled';
+import { CONTAINER } from '../Register/Register.styled'
 import apiClient from '../../services/api';
 
 const ForgotPass = () => {
@@ -30,7 +30,7 @@ const ForgotPass = () => {
     <>
     <CONTAINER fluid="sm">
       <Row className="justify-content-center">
-        <Col md={5}>
+        <Col  md={9} lg={8} xl={6}>
           <Card>
             <CardHeader>
               <Card.Title>

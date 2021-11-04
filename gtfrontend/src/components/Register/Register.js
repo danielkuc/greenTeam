@@ -68,7 +68,7 @@ const Register = () => {
         </Modal.Footer>
       </MODAL>
       <Row className="justify-content-center">
-        <Col md={7}>
+        <Col md={9} lg={8} xl={7}>
           <Card>
             <Card.Header className="py-3">
               <Card.Title>Sign Up</Card.Title>

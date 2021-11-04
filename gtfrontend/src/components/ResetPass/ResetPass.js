@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Row, Card, Form, FloatingLabel, FormControl, Modal } from 'react-bootstrap';
-import CONTAINER from './ResetPass.styled';
+import { CONTAINER } from '../Register/Register.styled';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Link, useLocation } from 'react-router-dom';

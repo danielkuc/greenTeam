@@ -31,6 +31,11 @@ a:hover{
   }
 }
 
+.popup {
+  color: orange;
+  font-size:large;
+}
+
 `;
 
 const MODAL = styled(Modal)`

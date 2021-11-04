@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CARD } from './Login.styled';
+import { CONTAINER } from '../Register/Register.styled';
 import { Formik } from "formik";
 // Form,
 // Yup - JS schema builder for validation and value parsing
@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useUserState, useLoginState } from '../../state';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
-import { Card, Col, Container, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
+import { Card, Col, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
 
 const Login = () => {
   // access to state context, deconstructed.
@@ -47,10 +47,10 @@ const Login = () => {
 
   return (
     <>
-    <Container fluid="sm">
+    <CONTAINER fluid="sm">
       <Row className="justify-content-center">
         <Col md={7} lg={6} xl={5}>
-          <CARD>
+          <Card>
             <Card.Header className="py-3">
               <Card.Title>Sign In</Card.Title>
             </Card.Header>
@@ -139,10 +139,10 @@ const Login = () => {
                 <Link to="/home/forgot-password">Forgot your password?</Link>
               </div>
             </Card.Footer>
-          </CARD>
+          </Card>
         </Col>
       </Row>
-    </Container>
+    </CONTAINER>
     </>
   )
 }
