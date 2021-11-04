@@ -8,13 +8,13 @@ import { Articles, BonusLayout } from '../../components';
 
 const DashLayout = () => {
   const { setUser } = useUserState();
-  const { IsLoggedIn, setIsLoggedIn } = useLoginState();
+  const { isLoggedIn, setIsLoggedIn } = useLoginState();
   const history = useHistory();  
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    if (!IsLoggedIn) 
+    if (!isLoggedIn) 
     {
       (async () => 
       {
@@ -31,10 +31,9 @@ const DashLayout = () => {
             setIsLoggedIn(false);
             setUser({});
             setLoading(false);
-            history.push('/');
+            history.push('/home');
           });
       })();
-    
     }
   },[])
 
