@@ -9,4 +9,5 @@ export { default as BonusLayout } from '../components/BonusLayout';
 export { default as ForgotPass } from '../components/ForgotPass';
 export { default as ResetPass } from '../components/ResetPass';
 export { default as ProtectedRoute } from './ProtectedRoute';
-export { default as AddBonus} from '../components/AddBonus'
+export { default as AddBonus} from '../components/AddBonus';
+export { default as FetchBonus} from '../components/FetchBonus';

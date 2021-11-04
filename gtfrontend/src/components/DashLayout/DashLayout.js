@@ -45,8 +45,7 @@ const DashLayout = () => {
         <NavBar />
         <Switch>
           <Route exact path="/dashboard" component={Articles} />
-          {/* <Route exact path="/dashboard/bonus" component={BonusLayout} /> */}
-          <Route exact path="/dashboard/bonus" render={(props) => (
+          <Route path="/dashboard/bonus" render={(props) => (
               <BonusLayout {...props} loading={loading} />
              )}
           /> 
