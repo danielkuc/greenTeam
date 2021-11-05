@@ -34,6 +34,8 @@ const DashLayout = () => {
             history.push('/home');
           });
       })();
+    } else {
+      setLoading(false);
     }
   },[])
 

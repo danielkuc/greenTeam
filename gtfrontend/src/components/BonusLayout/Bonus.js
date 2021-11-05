@@ -6,12 +6,11 @@ import { Container, Navbar, Nav } from 'react-bootstrap';
 const Bonus = () => {
   return (
     <>
-      <Container>
-      <Navbar>
+      <Navbar bg="secondary" variant="dark">
         <Container>
           <Nav className="me-auto">
             <Nav.Link href="/dashboard/bonus">Add new bonus</Nav.Link>
-            <Nav.Link href="/dashboard/bonus/fetch">Fetch Bonus</Nav.Link>
+            <Nav.Link href="/dashboard/bonus/fetch">Bonus Archive</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -19,7 +18,6 @@ const Bonus = () => {
         <Route exact path="/dashboard/bonus" component={AddBonus}/>
         <Route path="/dashboard/bonus/fetch" component={FetchBonus}/>
       </Switch>
-      </Container>
     </>
   )
 }
