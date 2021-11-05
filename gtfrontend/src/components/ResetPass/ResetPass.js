@@ -104,8 +104,6 @@ const ResetPass = () => {
                   handleChange,
                   handleBlur,
                   values,
-                  touched,
-                  isValid,
                   errors
                   
                 })=>(

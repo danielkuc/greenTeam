@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
-import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Row, Col, Button, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './AddBonus.styled';
 import apiClient from '../../services/api';
 import { useUserState } from '../../state';
 
 const AddBonus = () => {
 
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserState();
 
   const validator = yup.object({
@@ -17,6 +18,23 @@ const AddBonus = () => {
     designer_frames: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
     coatings: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer')
   });
+
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    const payload = {
+      ...values,
+      user_id: user.id
+    }
+    try {
+      apiClient.post('addBonus', payload).then(response => {
+        console.log(response);
+        return response;
+      });
+      setIsLoading(false);
+    } catch (error) {
+     setIsLoading(false); 
+    }
+  }
 
   return (
     <>
@@ -29,13 +47,13 @@ const AddBonus = () => {
               validationSchema={validator}
               validateOnChange={false}
               validateOnBlur={false}
-              // onSubmit={}
+              onSubmit={handleSubmit}
               initialValues={{ 
                 cx_number: null,
                 bonus_date:null,
                 bogof:null,
                 designer_frames: null,
-                coatings: null
+                coatings: null,
                }}
             >
               {({
@@ -46,7 +64,7 @@ const AddBonus = () => {
                 errors
               }) =>(
                 <Form 
-                  // onSubmit={}
+                  onSubmit={handleSubmit}
                 >
                   <Row md={2}>
                     {/* customer number */}
@@ -151,17 +169,15 @@ const AddBonus = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>
                     </Form.Group>
-
                   </Row>
                   <Form.Group className="my-5">
                       <Button
                         type="submit"
                         variant="warning"
                         size="lg"
-                        // disabled={isLoading}
+                        disabled={isLoading}
                         >
-                        {/* {!isLoading ? 'Submit' : 'Loading...'} */}
-                        Submit
+                        {!isLoading ? 'Submit' : 'Loading...'}
                       </Button>
                     </Form.Group>
                 </Form>
