@@ -4,8 +4,11 @@ import { Formik } from 'formik';
 import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './AddBonus.styled';
 import apiClient from '../../services/api';
+import { useUserState } from '../../state';
 
 const AddBonus = () => {
+
+  const { user } = useUserState();
 
   const validator = yup.object({
     cx_number: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
@@ -20,11 +23,20 @@ const AddBonus = () => {
       <CONTAINER fluid="md">
         <Row className="justify-content-center">
           <Col md={9} lg={8} xl={7}>
-            <Card>
-              <Card.Header>
-                <Card.Title>Add new bonus entry</Card.Title>
-              </Card.Header>    
-            </Card>          
+            {/* Formik form */}
+            <Formik
+              validationSchema={validator}
+              // onSubmit={}
+              initialValues={{ 
+                cx_number: null,
+                bonus_date:null,
+                bogof:null,
+                designer_frames: null,
+                coatings: null
+               }}
+            >
+
+            </Formik>
           </Col>
         </Row>
       </CONTAINER>
