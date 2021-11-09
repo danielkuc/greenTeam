@@ -20,6 +20,7 @@ const FetchBonus = () => {
       <CONTAINER>
         <Accordion
           defaultActiveKey="0"
+          className="py-4"
         >
           <Accordion.Header>
             Search parameters
@@ -28,12 +29,78 @@ const FetchBonus = () => {
             <Formik
               validationSchema={validator}
               // onSubmit={handleSUbmit}
+              validateOnChange={false}
+              validateOnBlur={false}
               initialValues={{ 
                 username:'',
                 date: null
                }}
             >
-
+              {({
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                errors
+              }) => (
+                <Form
+                  onSubmit={handleSubmit}
+                >
+                  <Row
+                    md={2}
+                  >
+                    <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="username"
+                        label="Filter by name"
+                      >
+                        <Form.Control
+                          type="text"
+                          name="username"
+                          placeholder="Filter by name"
+                          value={values.username}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.username}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.username}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group>  
+                    <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="date"
+                        label="Filter by date"
+                      >
+                        <Form.Control
+                          type="date"
+                          name="date"
+                          placeholder="Filter by date"
+                          value={values.date}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.date}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.date}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group>  
+                  </Row>                  
+                    <Form.Group className="my-2">
+                      <Button
+                        type="submit"
+                        variant="warning"
+                        size="lg"
+                        // disabled={isLoading}
+                        >
+                        {/* {!isLoading ? 'Submit' : 'Loading...'} */}
+                        Submit
+                      </Button>
+                    </Form.Group>
+                </Form>
+              )}
             </Formik>
           </Accordion.Body>
         </Accordion>

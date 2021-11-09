@@ -78,6 +78,8 @@ const Register = () => {
             <Formik
               validationSchema={validator}
               onSubmit={handleSubmit}
+              validateOnChange={false}
+              validateOnBlur={false}
               initialValues={{ 
                 first_name:'',
                 last_name:'',

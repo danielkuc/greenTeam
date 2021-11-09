@@ -58,6 +58,8 @@ const Login = () => {
               {/* start of formik form */}
               <Formik
                 validationSchema={validator}
+                validateOnChange={false}
+                validateOnBlur={false}
                 onSubmit={handleSubmit}
                 // initial values / state of the form
                 initialValues={{ 
