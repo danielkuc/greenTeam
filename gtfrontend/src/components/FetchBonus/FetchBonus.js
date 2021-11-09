@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik'
-import { Accordion, Card, Row, Col,Button ,FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Accordion, Row, Col,Button ,FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './FetchBonus.styled';
 import apiClient from '../../services/api';
+import { SubmitButton } from '../../components';
 
 const FetchBonus = () => {
-  const [isLodaing, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validator = yup.object({
     username: yup.string(),
@@ -88,17 +89,17 @@ const FetchBonus = () => {
                       </FloatingLabel>  
                     </Form.Group>  
                   </Row>                  
-                    <Form.Group className="my-2">
+                    {/* <Form.Group className="my-2">
                       <Button
                         type="submit"
                         variant="warning"
                         size="lg"
-                        // disabled={isLoading}
+                        disabled={isLoading}
                         >
-                        {/* {!isLoading ? 'Submit' : 'Loading...'} */}
-                        Submit
+                        {!isLoading ? 'Submit' : 'Loading...'}
                       </Button>
-                    </Form.Group>
+                    </Form.Group> */}
+                    <SubmitButton state={isLoading} />
                 </Form>
               )}
             </Formik>
