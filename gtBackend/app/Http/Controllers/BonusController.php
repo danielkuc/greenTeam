@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bonus;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class BonusController extends Controller
@@ -13,9 +16,15 @@ class BonusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $first_name = $request->input("first_name");
+        $last_name = $request->input("last_name");
+        $user = User::where("first_name","like", "%{$first_name}%" )
+            ->orWhere("last_name", "like", "%{$last_name}%")
+            ->first();
+        $bonus = $user->bonuses()->get();
+        return response()->json($bonus, 200);
     }
 
     /**

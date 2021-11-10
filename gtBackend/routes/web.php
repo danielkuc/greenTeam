@@ -29,7 +29,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth:sanctum'])->group(function () 
 {
-    Route::get('/users', [UserController::class, 'index']);
+    // Route::get('/users', [UserController::class, 'index']);
     Route::get('/users/search/{name}', [UserController::class, 'show']);
     Route::put('users/update/{id}', [UserController::class, 'update']);
     Route::delete('/remove/{id}', [UserController::class, 'destroy']);

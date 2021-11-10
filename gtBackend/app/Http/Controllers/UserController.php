@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Validator;
 
@@ -65,7 +66,9 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {   
-        $user = $request->user();
+        $name = $request->input('username');
+
+        $user = DB::table('users')->where('first_name', $name)->get();
 
         return response()->json(['user' => $user], 200);
     }

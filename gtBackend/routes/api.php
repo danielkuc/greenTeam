@@ -21,5 +21,6 @@ use App\Http\Controllers\UserController;
 
 Route::post('/bonus', [BonusController::class, 'store']);
 Route::post('/register', [UserController::class, 'store']);
-
+Route::post('/userid', [BonusController::class, 'index']);
+Route::post('/test', [UserController::class, 'show']);
 
