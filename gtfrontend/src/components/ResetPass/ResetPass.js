@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Link, useLocation } from 'react-router-dom';
 import apiClient from '../../services/api';
+import { SubmitButton } from '../../components';
 
 const ResetPass = () => {
 
@@ -168,18 +169,7 @@ const ResetPass = () => {
                       </FormControl.Feedback>
                     </FloatingLabel>
                   </Form.Group>
-
-                  <Form.Group className="my-3">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                      >
-                        {!isLoading ? 'Confirm password reset' : 'Loading...'}
-                      </Button>
-                    </Form.Group>
-
+                  <SubmitButton state={isLoading} text={'Confirm password reset'} />
                   </Form>
                 )}
               </Formik>

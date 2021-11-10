@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
-import { Row, Col, Button, FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './AddBonus.styled';
 import apiClient from '../../services/api';
 import { useUserState } from '../../state';
+import { SubmitButton } from '../../components';
 
 const AddBonus = () => {
 
@@ -49,11 +50,11 @@ const AddBonus = () => {
               validateOnBlur={false}
               onSubmit={handleSubmit}
               initialValues={{ 
-                cx_number: null,
-                bonus_date:null,
-                bogof:null,
-                designer_frames: null,
-                coatings: null,
+                cx_number: '',
+                bonus_date:'',
+                bogof:'',
+                designer_frames: '',
+                coatings: '',
                }}
             >
               {({
@@ -170,16 +171,7 @@ const AddBonus = () => {
                       </FloatingLabel>
                     </Form.Group>
                   </Row>
-                  <Form.Group className="my-5">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                        >
-                        {!isLoading ? 'Submit' : 'Loading...'}
-                      </Button>
-                    </Form.Group>
+                  <SubmitButton state={isLoading} />
                 </Form>
               )}
             </Formik>

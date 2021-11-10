@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { CONTAINER, MODAL } from './Register.styled';
 import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import apiClient from '../../services/api';
+import { SubmitButton } from '../../components';
 
 const Register = () => {
   // Submit button state, display message for user while performing a request
@@ -94,8 +95,6 @@ const Register = () => {
                 handleChange,
                 handleBlur,
                 values,
-                touched,
-                isValid,
                 errors
               })=>(
                 <Form onSubmit={handleSubmit}>
@@ -221,18 +220,7 @@ const Register = () => {
                       </FormControl.Feedback>
                     </FloatingLabel>
                   </Form.Group>
-
-                  <Form.Group className="my-3">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                        >
-                        {!isLoading ? 'Sign Up' : 'Loading...'}
-                      </Button>
-                    </Form.Group>
-                
+                  <SubmitButton state={isLoading} />
                 </Form>
               )}
             </Formik>

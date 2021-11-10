@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 import { CONTAINER } from '../Register/Register.styled'
 import apiClient from '../../services/api';
+import { SubmitButton } from '../../components';
 
 const ForgotPass = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,17 +77,7 @@ const ForgotPass = () => {
                     <Form.Group className={display ? `d-block` : `d-none`}>
                       <p className="popup">We've sent you a password reset link.</p>
                     </Form.Group>
-
-                    <Form.Group className="my-3">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                        >
-                        {!isLoading ? 'Send Password Reset Link' : 'Loading...'}
-                      </Button>
-                    </Form.Group>
+                    <SubmitButton state={isLoading}  text={'Send Password Reset Link'} />
                   </Form>
                 )}
               </Formik>

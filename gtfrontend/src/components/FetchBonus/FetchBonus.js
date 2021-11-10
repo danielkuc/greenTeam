@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik'
-import { Accordion, Row, Col,Button ,FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Accordion, Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './FetchBonus.styled';
 import apiClient from '../../services/api';
 import { SubmitButton } from '../../components';
@@ -34,7 +34,7 @@ const FetchBonus = () => {
               validateOnBlur={false}
               initialValues={{ 
                 username:'',
-                date: null
+                date: 0
                }}
             >
               {({
@@ -50,6 +50,7 @@ const FetchBonus = () => {
                   <Row
                     md={2}
                   >
+                    {/* search by username */}
                     <Form.Group as={Col}>
                       <FloatingLabel
                         controlId="username"
@@ -68,7 +69,8 @@ const FetchBonus = () => {
                           {errors.username}
                         </FormControl.Feedback>
                       </FloatingLabel>  
-                    </Form.Group>  
+                    </Form.Group> 
+                    {/* search by date */}
                     <Form.Group as={Col}>
                       <FloatingLabel
                         controlId="date"
@@ -89,17 +91,7 @@ const FetchBonus = () => {
                       </FloatingLabel>  
                     </Form.Group>  
                   </Row>                  
-                    {/* <Form.Group className="my-2">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                        >
-                        {!isLoading ? 'Submit' : 'Loading...'}
-                      </Button>
-                    </Form.Group> */}
-                    <SubmitButton state={isLoading} />
+                  <SubmitButton state={isLoading} />
                 </Form>
               )}
             </Formik>

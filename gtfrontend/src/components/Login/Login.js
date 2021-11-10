@@ -8,6 +8,7 @@ import { useUserState, useLoginState } from '../../state';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
 import { Card, Col, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
+import { SubmitButton } from '../../components';
 
 const Login = () => {
   // access to state context, deconstructed.
@@ -118,16 +119,7 @@ const Login = () => {
                       </FloatingLabel>
                     </Form.Group>
                     {/* Submit button */}
-                    <Form.Group className="my-3">
-                      <Button
-                        type="submit"
-                        variant="warning"
-                        size="lg"
-                        disabled={isLoading}
-                        >
-                        {!isLoading ? 'Sign In' : 'Loading...'}
-                      </Button>
-                    </Form.Group>
+                    <SubmitButton state={isLoading} />
                   </Form>
               )}
               </Formik>
