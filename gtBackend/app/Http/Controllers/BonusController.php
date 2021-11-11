@@ -18,8 +18,21 @@ class BonusController extends Controller
      */
     public function index(Request $request)
     {
+        // get user input and validate it, only accepts required input.
+        $input = $request->only(['first_name', 'last_name', 'date']);
+        $validator = Validator::make($input, [
+            'first_name'=>'string',
+            'last_name'=>'string',
+            'date'=>'date'
+        ]);
+        // if validation fails, return an error.
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 403);
+        }
+        
         $first_name = $request->input("first_name");
         $last_name = $request->input("last_name");
+        // DB query
         $user = User::where("first_name","like", "%{$first_name}%" )
             ->orWhere("last_name", "like", "%{$last_name}%")
             ->first();
