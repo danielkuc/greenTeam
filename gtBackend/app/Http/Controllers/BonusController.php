@@ -21,9 +21,9 @@ class BonusController extends Controller
         // get user input and validate it, only accepts required input.
         $input = $request->only(['first_name', 'last_name', 'date']);
         $validator = Validator::make($input, [
-            'first_name'=>'string',
-            'last_name'=>'string',
-            'date'=>'date'
+            'first_name'=>'string|nullable',
+            'last_name'=>'string|nullable',
+            'date'=>'date|nullable'
         ]);
         // if validation fails, return an error.
         if($validator->fails()){
@@ -32,11 +32,14 @@ class BonusController extends Controller
         
         $first_name = $request->input("first_name");
         $last_name = $request->input("last_name");
+        $date = $request->input("date");
         // DB query
-        $user = User::where("first_name","like", "%{$first_name}%" )
-            ->orWhere("last_name", "like", "%{$last_name}%")
-            ->first();
-        $bonus = $user->bonuses()->get();
+        // find the user in users table
+        $user = User::where([
+                ["first_name","like", "%{$first_name}%"],
+                ["last_name", "like", "%{$last_name}%"],
+        ])->first();
+        $bonus = $user->bonuses()->whereDate('bonus_date', "2021-11-12")->get();
         return response()->json($bonus, 200);
     }
 
