@@ -19,11 +19,13 @@ class BonusController extends Controller
     public function index(Request $request)
     {
         // get user input and validate it, only accepts required input.
-        $input = $request->only(['first_name', 'last_name', 'date']);
+        $input = $request->only(['first_name', 'last_name', 'date', 'date_from', 'date_to']);
         $validator = Validator::make($input, [
             'first_name'=>'string|nullable',
             'last_name'=>'string|nullable',
-            'date'=>'date|nullable'
+            'date'=>'date|nullable',
+            'date_from'=>'date|nullable',
+            'date_to'=>'date|nullable',
         ]);
         // if validation fails, return an error.
         if($validator->fails()){
@@ -33,13 +35,15 @@ class BonusController extends Controller
         $first_name = $request->input("first_name");
         $last_name = $request->input("last_name");
         $date = $request->input("date");
+        $date_from = $request->input("date_from");
+        $date_to = $request->input("date_to");
         // DB query
         // find the user in users table
         $user = User::where([
                 ["first_name","like", "%{$first_name}%"],
                 ["last_name", "like", "%{$last_name}%"],
         ])->first();
-        $bonus = $user->bonuses()->whereDate('bonus_date', "2021-11-12")->get();
+        $bonus = $user->bonuses()->whereDate("bonus_date", $date)->orWhereBetween('bonus_date', [$date_from, $date_to])->get();
         return response()->json($bonus, 200);
     }
 
@@ -91,9 +95,9 @@ class BonusController extends Controller
      * @param  \App\Models\Bonus  $bonus
      * @return \Illuminate\Http\Response
      */
-    public function show(Bonus $bonus)
+    public function show(Request $request)
     {
-        //
+        return response()->json($request, 200);
     }
 
     /**
