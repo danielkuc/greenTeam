@@ -57,9 +57,7 @@ const FetchBonus = () => {
                 <Form
                   onSubmit={handleSubmit}
                 >
-                  <Row
-                    md={2}
-                  >
+                  <Row md={2}>
                     {/* search by first name */}
                     <Form.Group as={Col}>
                       <FloatingLabel
@@ -100,8 +98,11 @@ const FetchBonus = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>  
                     </Form.Group> 
+                    </Row>
+
+                    <Row md={2}>
                     {/* search by date */}
-                    <Form.Group as={Col}>
+                    <Form.Group as={<Col md={4}/>}>
                       <FloatingLabel
                         controlId="date"
                         label="Filter by date"
@@ -120,6 +121,48 @@ const FetchBonus = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>  
                     </Form.Group>  
+                  </Row>
+                  <Row md={2}>
+                    {/* Search by date range  */}
+                  <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="date_from"
+                        label="Date from"
+                      >
+                        <Form.Control
+                          type="date"
+                          name="date_from"
+                          placeholder="Date to"
+                          value={values.date_from}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.date_from}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.date_from}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group> 
+
+                    <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="date_to"
+                        label="Date to"
+                      >
+                        <Form.Control
+                          type="date"
+                          name="date_from"
+                          placeholder="Date to"
+                          value={values.date_to}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.date_to}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.date_to}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group> 
                   </Row>                  
                   <SubmitButton state={isLoading} />
                 </Form>
