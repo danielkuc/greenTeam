@@ -43,6 +43,7 @@ class BonusController extends Controller
                 ["first_name","like", "%{$first_name}%"],
                 ["last_name", "like", "%{$last_name}%"],
         ])->first();
+        
         $bonus = $user->bonuses()->whereDate("bonus_date", $date)->orWhereBetween('bonus_date', [$date_from, $date_to])->get();
         return response()->json($bonus, 200);
     }

@@ -10,9 +10,16 @@ const FetchBonus = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validator = yup.object({
-    username: yup.string(),
-    date: yup.date()
+    first_name: yup.string(),
+    last_name: yup.string(),
+    date: yup.date(),
+    date_from: yup.date(),
+    date_to: yup.date()
   });
+
+  const handleSUbmit = (values) => {
+    return console.log(values);
+  }
 
   // ADD DATE RANGE FROM-TO
 
@@ -29,12 +36,15 @@ const FetchBonus = () => {
           <Accordion.Body>
             <Formik
               validationSchema={validator}
-              // onSubmit={handleSUbmit}
+              onSubmit={handleSUbmit}
               validateOnChange={false}
               validateOnBlur={false}
               initialValues={{ 
-                username:'',
-                date: 0
+                first_name:'',
+                last_name:'',
+                date: 0,
+                date_from: 0,
+                date_to: 0,
                }}
             >
               {({
@@ -50,23 +60,43 @@ const FetchBonus = () => {
                   <Row
                     md={2}
                   >
-                    {/* search by username */}
+                    {/* search by first name */}
                     <Form.Group as={Col}>
                       <FloatingLabel
-                        controlId="username"
-                        label="Filter by name"
+                        controlId="first_name"
+                        label="Filter by first name"
                       >
                         <Form.Control
                           type="text"
-                          name="username"
-                          placeholder="Filter by name"
-                          value={values.username}
+                          name="first_name"
+                          placeholder="Filter by first name"
+                          value={values.first_name}
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          isInvalid={errors.username}
+                          isInvalid={errors.first_name}
                         />
                         <FormControl.Feedback type="invalid">
-                          {errors.username}
+                          {errors.first_name}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group> 
+                    {/* search by last name */}
+                    <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="last_name"
+                        label="Filter by last name"
+                      >
+                        <Form.Control
+                          type="text"
+                          name="last_name"
+                          placeholder="Filter by last name"
+                          value={values.last_name}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.last_name}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.last_name}
                         </FormControl.Feedback>
                       </FloatingLabel>  
                     </Form.Group> 
