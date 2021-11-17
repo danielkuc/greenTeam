@@ -28,19 +28,19 @@ const AddBonus = () => {
     }
     try {
       apiClient.post('addBonus', payload).then(response => {
-        console.log(response);
         return response;
       });
       setIsLoading(false);
     } catch (error) {
      setIsLoading(false); 
+     console.log(error);
     }
   }
 
   return (
     <>
       <CONTAINER fluid="md" className="pt-5">
-          <p className="text-center py-4 h2">Add new bonus entry</p>
+          <p className="text-center py-4 h3">Add new bonus entry</p>
         <Row className="justify-content-center">
           <Col md={9} lg={8} xl={7}>
             {/* Formik form */}

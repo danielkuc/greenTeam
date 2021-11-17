@@ -17,8 +17,16 @@ const FetchBonus = () => {
     date_to: yup.date()
   });
 
-  const handleSUbmit = (values) => {
-    return console.log(values);
+  const handleSUbmit = async (values) => {
+    setIsLoading(true)
+    try {
+      await apiClient.post('request/bonus', values).then(response =>{
+        setIsLoading(false)
+        return console.log(response);
+      })
+    } catch (error) {
+      
+    }
   }
 
   // ADD DATE RANGE FROM-TO
@@ -42,9 +50,9 @@ const FetchBonus = () => {
               initialValues={{ 
                 first_name:'',
                 last_name:'',
-                date: 0,
-                date_from: 0,
-                date_to: 0,
+                date: '',
+                date_from: '',
+                date_to: '',
                }}
             >
               {({
@@ -57,6 +65,7 @@ const FetchBonus = () => {
                 <Form
                   onSubmit={handleSubmit}
                 >
+                  <p className="py-1 h5">Search by name</p>
                   <Row md={2}>
                     {/* search by first name */}
                     <Form.Group as={Col}>
@@ -99,29 +108,7 @@ const FetchBonus = () => {
                       </FloatingLabel>  
                     </Form.Group> 
                     </Row>
-
-                    <Row md={2}>
-                    {/* search by date */}
-                    <Form.Group as={<Col md={4}/>}>
-                      <FloatingLabel
-                        controlId="date"
-                        label="Filter by date"
-                      >
-                        <Form.Control
-                          type="date"
-                          name="date"
-                          placeholder="Filter by date"
-                          value={values.date}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          isInvalid={errors.date}
-                        />
-                        <FormControl.Feedback type="invalid">
-                          {errors.date}
-                        </FormControl.Feedback>
-                      </FloatingLabel>  
-                    </Form.Group>  
-                  </Row>
+                    <p className="py-1 h5">Search by date range</p>
                   <Row md={2}>
                     {/* Search by date range  */}
                   <Form.Group as={Col}>
@@ -151,7 +138,7 @@ const FetchBonus = () => {
                       >
                         <Form.Control
                           type="date"
-                          name="date_from"
+                          name="date_to"
                           placeholder="Date to"
                           value={values.date_to}
                           onBlur={handleBlur}
@@ -163,7 +150,31 @@ const FetchBonus = () => {
                         </FormControl.Feedback>
                       </FloatingLabel>  
                     </Form.Group> 
-                  </Row>                  
+                  </Row>
+                  <p className="py-1 h5">Search by date</p>
+                  <Row md={2}>
+                    {/* search by date */}
+                    <Form.Group as={Col}>
+                      <FloatingLabel
+                        controlId="date"
+                        label="Filter by date"
+                      >
+                        <Form.Control
+                          type="date"
+                          name="date"
+                          placeholder="Filter by date"
+                          value={values.date}
+                          onBlur={handleBlur}
+                          onChange={handleChange}
+                          isInvalid={errors.date}
+                        />
+                        <FormControl.Feedback type="invalid">
+                          {errors.date}
+                        </FormControl.Feedback>
+                      </FloatingLabel>  
+                    </Form.Group>  
+                  </Row>
+
                   <SubmitButton state={isLoading} />
                 </Form>
               )}

@@ -34,7 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function ()
     Route::put('users/update/{id}', [UserController::class, 'update']);
     Route::delete('/remove/{id}', [UserController::class, 'destroy']);
     Route::get('/user', [UserController::class, 'show']);
-    // BonusCOntroller Routes.
-    Route::get('/add/bonus', [BonusController::class, 'show']);
-    Route::get('/request/bonus', [BonusController::class, 'show']);
+    // BonusController Routes.
+    Route::post('/add/bonus', [BonusController::class, 'show']);
+    Route::post('/request/bonus', [BonusController::class, 'show']);
 });
