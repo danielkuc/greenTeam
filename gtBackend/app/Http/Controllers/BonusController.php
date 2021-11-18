@@ -92,11 +92,19 @@ class BonusController extends Controller
             $validator->validated(),
             ['user_id' => $request->user_id] 
         ));
+
+        if ($bonus->wasRecentlyCreated) {
+            return response()->json([
+                'message' => 'Resource successfully created',
+                'request' => $bonus
+            ],201);
+        } else {
+            return response()->json([
+                'failure' => 'Failed to create resource, failed dependency.'
+            ], 424);
+        }
+        
         // return status 201 -created and a successful message.
-        return response()->json([
-            'message' => 'resource successfully created',
-            'request' => $bonus
-        ],201);
     }
 
     /**

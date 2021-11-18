@@ -3,12 +3,12 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './AddBonus.styled';
-// import apiClient from '../../services/api';
+import apiClient from '../../services/api';
 import { useUserState } from '../../state';
-import { SubmitButton } from '../../components';
+import { DisplayModal, SubmitButton } from '../../components';
 
 const AddBonus = () => {
-
+  const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useUserState();
 
@@ -20,31 +20,36 @@ const AddBonus = () => {
     coatings: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer')
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, {resetForm}) => {
     setIsLoading(true);
     const payload = {
       ...values,
       user_id: user.id
     }
-
     console.log(payload);
-    console.log(user);
-    setIsLoading(false)
-    // try {
-    //   apiClient.post('add/bonus', payload).then(response => {
-    //     return response;
-    //   });
-    //   setIsLoading(false);
-    // } catch (error) {
-    //  setIsLoading(false); 
-    //  console.log(error);
-    // }
+    try {
+      await apiClient.post('add/bonus', payload).then(response => {
+        console.log(response);
+      })
+      setIsLoading(false);
+      resetForm()
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false); 
+    }
   }
 
   return (
     <>
       <CONTAINER fluid="md" className="pt-5">
-          <p className="text-center py-4 h3">Add new bonus entry</p>
+        <DisplayModal 
+          body="Bonus added."
+          state={!show}
+          success="Success!"
+          message="Go back"
+          setState={setShow}
+        />
+        <p className="text-center py-4 h3">Add new bonus entry</p>
         <Row className="justify-content-center">
           <Col md={9} lg={8} xl={7}>
             {/* Formik form */}
