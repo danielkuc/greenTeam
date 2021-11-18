@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import { Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './AddBonus.styled';
-import apiClient from '../../services/api';
+// import apiClient from '../../services/api';
 import { useUserState } from '../../state';
 import { SubmitButton } from '../../components';
 
@@ -26,15 +26,19 @@ const AddBonus = () => {
       ...values,
       user_id: user.id
     }
-    try {
-      apiClient.post('addBonus', payload).then(response => {
-        return response;
-      });
-      setIsLoading(false);
-    } catch (error) {
-     setIsLoading(false); 
-     console.log(error);
-    }
+
+    console.log(payload);
+    console.log(user);
+    setIsLoading(false)
+    // try {
+    //   apiClient.post('add/bonus', payload).then(response => {
+    //     return response;
+    //   });
+    //   setIsLoading(false);
+    // } catch (error) {
+    //  setIsLoading(false); 
+    //  console.log(error);
+    // }
   }
 
   return (

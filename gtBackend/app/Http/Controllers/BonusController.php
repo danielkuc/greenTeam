@@ -38,14 +38,23 @@ class BonusController extends Controller
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
         // DB query
-        // find the user in users table
+        // find the first user with matching name in users database.
         $user = User::where([
                 ["first_name","like", "%{$first_name}%"],
                 ["last_name", "like", "%{$last_name}%"],
         ])->first();
-        
-        $bonus = $user->bonuses()->whereDate("bonus_date", $date)->orWhereBetween('bonus_date', [$date_from, $date_to])->get();
-        return response()->json($bonus, 200);
+        // Database query using all optional parameters.
+        $bonus = $user->bonuses()
+            ->whereDate("bonus_date", $date)
+            ->orWhereBetween('bonus_date', [$date_from, $date_to])
+            // ->orWhere("user_id", $user->id)
+            ->get();
+            // return a formatted array with user details and bonus.
+        return response()->json([
+            'bonus' => $bonus,
+            'userFirstName' => $user->first_name, 
+            'userLastName' => $user->last_name, 
+        ], 200);
     }
 
     /**

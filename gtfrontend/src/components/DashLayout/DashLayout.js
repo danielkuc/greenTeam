@@ -18,11 +18,12 @@ const DashLayout = () => {
     {
       (async () => 
       {
-        await axios.get('http://localhost:8000/user', {withCredentials: true})
+        await axios.get('http://localhost:8000/user-credentials', {withCredentials: true})
         .then(response => 
           {
+            console.log(response);
             setIsLoggedIn(true);
-            setUser(response.data.user);
+            setUser(response.data);
             setLoading(false);
             history.push(location.pathname);          
           })

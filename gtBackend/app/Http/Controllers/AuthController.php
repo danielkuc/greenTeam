@@ -98,8 +98,16 @@ class AuthController extends Controller
         ], 500);
     }
 
-    public function me(Request $request)
+    public function userCredentials(Request $request)
     {
-        return $request->user();
+        // return $request->user();
+        if (Auth::check()) {
+            return Auth::user();
+        } else {
+            return response()->json('User Unauthorized'
+            , 401);
+        }
+        
+
     }
 }

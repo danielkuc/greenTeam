@@ -25,11 +25,10 @@ const FetchBonus = () => {
         return console.log(response);
       })
     } catch (error) {
-      
+      console.log(error);      
+      isLoading(false);
     }
   }
-
-  // ADD DATE RANGE FROM-TO
 
   return (
     <>

@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { useUserState, useLoginState } from '../../state';
 import apiClient from '../../services/api';
 import { Link, useHistory } from 'react-router-dom';
-import { Card, Col, Row,Form, FloatingLabel, Button, FormControl } from 'react-bootstrap';
+import { Card, Col, Row,Form, FloatingLabel, FormControl } from 'react-bootstrap';
 import { SubmitButton } from '../../components';
 
 const Login = () => {
