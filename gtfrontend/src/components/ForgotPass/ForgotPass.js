@@ -14,13 +14,14 @@ const ForgotPass = () => {
     email: yup.string().email('Invalid email address').required('Email required')
   });
 
-  const handleSubmit =  async (values) => {
+  const handleSubmit =  async (values, {resetForm}) => {
     setIsLoading(true);
     try {
       await apiClient.get("/sanctum/csrf-cookie").then(response => {
         apiClient.post('forgot-password', values);
         setIsLoading(false);
         setDisplay(true);
+        resetForm();
       });
     } catch (error) {
       setIsLoading(false);      

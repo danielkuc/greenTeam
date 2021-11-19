@@ -27,7 +27,7 @@ const Login = () => {
   });
   // handle submit function : gets csrf cookies from backend (need to be attached with any authorized requests and always withCredentials),
   // then takes validated user input sends to back end function to check if user is in database, then sets state with user info and redirects to home. if user not found throws formik error. 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values,{resetForm}) => {
     setIsLoading(true);
     try {
       await apiClient.get("/sanctum/csrf-cookie").then( response => 
@@ -37,6 +37,7 @@ const Login = () => {
           setUser(response.data.user);
           setIsLoggedIn(true);
           setIsLoading(false);
+          resetForm();
           history.push('/dashboard');
           });
       });
@@ -73,8 +74,6 @@ const Login = () => {
                   handleChange,
                   handleBlur,
                   values,
-                  touched,
-                  isValid,
                   errors
                 }) =>(
                   <Form onSubmit={handleSubmit}>

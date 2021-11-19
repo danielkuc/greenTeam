@@ -13,7 +13,7 @@ const AddBonus = () => {
   const { user } = useUserState();
 
   const validator = yup.object({
-    cx_number: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
+    cx_number: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer').required('Cx number is required'),
     bonus_date: yup.date().required('Date required'),
     bogof: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
     designer_frames: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
@@ -21,21 +21,17 @@ const AddBonus = () => {
   });
 
   const handleSubmit = async (values, {resetForm}) => {
-    setIsLoading(true);
+    setIsLoading(true)
     const payload = {
       ...values,
       user_id: user.id
     }
-    console.log(payload);
     try {
-      await apiClient.post('add/bonus', payload).then(response => {
-        console.log(response);
-      })
-      setIsLoading(false);
+      await apiClient.post('add/bonus', payload)
+      setIsLoading(false)
       resetForm()
     } catch (error) {
-      console.log(error);
-      setIsLoading(false); 
+      setIsLoading(false) 
     }
   }
 
@@ -43,10 +39,10 @@ const AddBonus = () => {
     <>
       <CONTAINER fluid="md" className="pt-5">
         <DisplayModal 
-          body="Bonus added."
+          body="Bonus added successfully"
           state={!show}
           success="Success!"
-          message="Go back"
+          buttonValue="Go back"
           setState={setShow}
         />
         <p className="text-center py-4 h3">Add new bonus entry</p>
@@ -60,10 +56,10 @@ const AddBonus = () => {
               onSubmit={handleSubmit}
               initialValues={{ 
                 cx_number: '',
-                bonus_date:'',
-                bogof:'',
-                designer_frames: '',
-                coatings: '',
+                bonus_date:'0',
+                bogof:'0',
+                designer_frames: '0',
+                coatings: '0',
                }}
             >
               {({

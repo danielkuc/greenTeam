@@ -24,7 +24,7 @@ const Register = () => {
     password_confirmation: Yup.string().required('Password confirmation required').oneOf([Yup.ref("password"), null], "Passwords must match"),
   });
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, {resetForm}) => {
     setIsLoading(true)
     try 
     {
@@ -34,6 +34,7 @@ const Register = () => {
           console.log(response);
           return response
         });
+        resetForm()
         setIsLoading(false);
         setShow(true);
     });

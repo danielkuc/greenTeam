@@ -28,7 +28,7 @@ const ResetPass = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, {resetForm}) => {
     setIsLoading(true);
 
     // extracted token and values are sent to back end for validation, do not remove or modify token
@@ -42,6 +42,7 @@ const ResetPass = () => {
           if (response.status === 200) {
             setIsLoading(false)
             handleShow();
+            resetForm();
           }
         });
       });

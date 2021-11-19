@@ -1,8 +1,9 @@
 import React from 'react'
 import MODAL from './DisplayModal.styled';
-import { Button, Link, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const DisplayModal = ({body, redirect , state, setState, success, message}) => {
+const DisplayModal = ({body, redirect,url , state, setState, success, buttonValue}) => {
   const handleClick = () => {
     setState(true);
   }
@@ -23,9 +24,17 @@ const DisplayModal = ({body, redirect , state, setState, success, message}) => {
     {body}
     </Modal.Body>
     <Modal.Footer >
-      {/* <Link to="/home" className="mx-auto"> */}
-        <Button onClick={handleClick} variant="warning" >{message}</Button>
-      {/* </Link> */}
+      {
+        redirect ? 
+        (
+          <Link to={url} className="mx-auto">
+            <Button variant="warning" >{buttonValue}</Button>
+         </Link>   
+        ) : 
+        (
+          <Button onClick={handleClick} variant="warning" >{buttonValue}</Button>
+        )
+      }    
     </Modal.Footer>
   </MODAL>
 )
