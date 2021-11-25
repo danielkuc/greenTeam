@@ -8,6 +8,7 @@ import { CONTAINER, MODAL } from './Register.styled';
 import { Row, Col, Card, Button, Modal, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import apiClient from '../../services/api';
 import { SubmitButton } from '../../components';
+import axios from 'axios';
 
 const Register = () => {
   // Submit button state, display message for user while performing a request

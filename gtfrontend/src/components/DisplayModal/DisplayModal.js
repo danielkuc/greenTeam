@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const DisplayModal = ({body, redirect,url , state, setState, success, buttonValue}) => {
   const handleClick = () => {
-    setState(true);
+    setState(false);
   }
 
   return (
@@ -21,7 +21,9 @@ const DisplayModal = ({body, redirect,url , state, setState, success, buttonValu
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-    {body}
+    <p>
+      {body}
+    </p>
     </Modal.Body>
     <Modal.Footer >
       {

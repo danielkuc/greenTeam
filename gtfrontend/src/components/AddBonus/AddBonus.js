@@ -30,8 +30,10 @@ const AddBonus = () => {
       await apiClient.post('add/bonus', payload)
       setIsLoading(false)
       resetForm()
+      setShow(true)
     } catch (error) {
       setIsLoading(false) 
+      return error
     }
   }
 
@@ -40,7 +42,7 @@ const AddBonus = () => {
       <CONTAINER fluid="md" className="pt-5">
         <DisplayModal 
           body="Bonus added successfully"
-          state={!show}
+          state={show}
           success="Success!"
           buttonValue="Go back"
           setState={setShow}

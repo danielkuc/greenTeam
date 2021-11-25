@@ -115,7 +115,7 @@ class BonusController extends Controller
      */
     public function show(Request $request)
     {
-        return response()->json($request, 200);
+        return response()->json('it works', 200);
     }
 
     /**
