@@ -34,7 +34,7 @@ class BonusController extends Controller
         
         $first_name = $request->input("first_name");
         $last_name = $request->input("last_name");
-        $date = $request->input("date");
+        // $date = $request->input("date");
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
         // DB query
@@ -44,27 +44,30 @@ class BonusController extends Controller
                 ["last_name", "like", "%{$last_name}%"],
         ])->first();
         // Database query using all optional parameters.
-        $bonus = $user->bonuses()
-            ->whereDate("bonus_date", $date)
-            ->orWhereBetween('bonus_date', [$date_from, $date_to])
-            ->orWhere("user_id", $user->id)
-            ->get();
+        // $bonus = $user->bonuses()
+            // ->whereDate("bonus_date", $date)
+            // ->orWhereBetween('bonus_date', [$date_from, $date_to])
+            // ->orWhere("user_id", $user->id)
+            // ->get();
+            $from = date('2021-11-01');
+            $to = date('2021-11-02');
+            $bonus = Bonus::whereBetween('bonus_date', [$from, $to])->get();
 
-                $users = User::whereHasMorph(
-                    'bonuses',
-                    Bonus::class,
-                    function(Builder $query)
-                    {
-                        $query->where('id', 'user_id');
-                    }
-                )->get();
+                // $bonus = Bonus::whereHasMorph(
+                //     'user',
+                //     User::class,
+                //     function(Builder $query)
+                //     {
+                //         $query->whereDate("bonus_date", $date);
+                //     }
+                // )->get();
 
             // return a formatted array with user details and bonus.
         return response()->json([
             'bonus' => $bonus,
-            'users' => $users,
-            'userFirstName' => $user->first_name, 
-            'userLastName' => $user->last_name, 
+            // 'users' => $users,
+            // 'userFirstName' => $user->first_name, 
+            // 'userLastName' => $user->last_name, 
         ], 200);
     }
 
