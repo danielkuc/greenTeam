@@ -22,7 +22,7 @@ const FetchBonus = () => {
     try {
       await apiClient.post('request/bonus', values).then(response =>{
         setIsLoading(false)
-        return console.log(response);
+        return console.log(response.data);
       })
     } catch (error) {
       console.log(error);      

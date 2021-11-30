@@ -47,11 +47,22 @@ class BonusController extends Controller
         $bonus = $user->bonuses()
             ->whereDate("bonus_date", $date)
             ->orWhereBetween('bonus_date', [$date_from, $date_to])
-            // ->orWhere("user_id", $user->id)
+            ->orWhere("user_id", $user->id)
             ->get();
+
+                $users = User::whereHasMorph(
+                    'bonuses',
+                    Bonus::class,
+                    function(Builder $query)
+                    {
+                        $query->where('id', 'user_id');
+                    }
+                )->get();
+
             // return a formatted array with user details and bonus.
         return response()->json([
             'bonus' => $bonus,
+            'users' => $users,
             'userFirstName' => $user->first_name, 
             'userLastName' => $user->last_name, 
         ], 200);
