@@ -25,50 +25,66 @@ class BonusController extends Controller
             'last_name'=>'string|nullable',
             'date'=>'date|nullable',
             'date_from'=>'date|nullable',
-            'date_to'=>'date|nullable',
         ]);
         // if validation fails, return an error.
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 403);
         }
+        // if only username provided, return every user bonus entry
+        // if only date provided, return bonuses of all users in given data range
+        // if both provided return only given users bonus from selected range
         
         $first_name = $request->input("first_name");
-        $last_name = $request->input("last_name");
-        // $date = $request->input("date");
+        $first_name = $request->input("first_name");
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
+
         // DB query
         // find the first user with matching name in users database.
-        $user = User::where([
+        if ($request->missing('date_from') || $request->missing('date_to')) {
+
+            $user = User::where([
                 ["first_name","like", "%{$first_name}%"],
                 ["last_name", "like", "%{$last_name}%"],
-        ])->first();
-        // Database query using all optional parameters.
-        // $bonus = $user->bonuses()
-            // ->whereDate("bonus_date", $date)
-            // ->orWhereBetween('bonus_date', [$date_from, $date_to])
-            // ->orWhere("user_id", $user->id)
-            // ->get();
-            $from = date('2021-11-01');
-            $to = date('2021-11-02');
-            $bonus = Bonus::whereBetween('bonus_date', [$from, $to])->get();
+            ])->select('id', 'first_name', 'last_name')->first();
 
-                // $bonus = Bonus::whereHasMorph(
-                //     'user',
-                //     User::class,
-                //     function(Builder $query)
-                //     {
-                //         $query->whereDate("bonus_date", $date);
-                //     }
-                // )->get();
+            $bonuses = Bonus::where('user_id', $user->id)->get();        
+
+            return response()->json([
+                'bonus' => $bonuses,
+                'username' => "{$user->first_name} {$user->last_name}",
+                'tag' => 'from no date'
+            ], 200);
+
+        } elseif ($request->missing('first_name') || $request->missing('last_name')) {
+
+            $bonuses = Bonus::whereBetween('bonus_date', [$date_from, $date_to])->get();
+
+            $ids = $bonuses->pluck('user_id');
+
+            $users= User::whereIn('id', $ids)->select('first_name', 'last_name')->get();
+
+            // foreach ($bonuses as $bonus) {
+            //     return {}
+            // }
+
+            return response([
+                'bonus' => $bonuses,
+                'ids' => $ids,
+                'users' => $users,
+                'tag' => 'from no name'
+            ], 200);
+        }
 
             // return a formatted array with user details and bonus.
-        return response()->json([
-            'bonus' => $bonus,
-            // 'users' => $users,
-            // 'userFirstName' => $user->first_name, 
-            // 'userLastName' => $user->last_name, 
-        ], 200);
+        // return response()->json([
+        //     'bonus' => $bonuses,
+        //     // 'guy' => $guys
+        //     // 'users' => $users,
+        //     // 'userFirstName' => $user->first_name, 
+        //     // 'userLastName' => $user->last_name, 
+        // ], 200);
+        return $request;
     }
 
     /**
