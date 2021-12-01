@@ -49,16 +49,17 @@ class BonusController extends Controller
             // ->orWhereBetween('bonus_date', [$date_from, $date_to])
             // ->orWhere("user_id", $user->id)
             // ->get();
-            $from = date('2021-11-01');
-            $to = date('2021-11-02');
-            $bonus = Bonus::whereBetween('bonus_date', [$from, $to])->get();
+            // $from = date('2021-11-01');
+            // $to = date('2021-11-01');
+            
+            $bonus = Bonus::whereBetween('bonus_date', [$date_from, $date_to])->orWhere("user_id", $user->id)->get();
 
                 // $bonus = Bonus::whereHasMorph(
-                //     'user',
+                //     'BelongsTo',
                 //     User::class,
                 //     function(Builder $query)
                 //     {
-                //         $query->whereDate("bonus_date", $date);
+                //         $query->whereBetween('bonus_date', [$from, $_to]);
                 //     }
                 // )->get();
 
