@@ -40,44 +40,45 @@ class BonusController extends Controller
         $date_to = $request->input("date_to");
 
         // conditional requests.
-        if ($request->missing('date_from') || $request->missing('date_to')) {
-            // find user based on submitted input
-            $user = User::where([
-                ["first_name","like", "%{$first_name}%"],
-                ["last_name", "like", "%{$last_name}%"],
-            ])->select('id', 'first_name', 'last_name')->first();
-                // find related bonus in bonuses table
-            $bonuses = Bonus::where('user_id', $user->id)->get();        
-                // return bonuses and username
-            return response()->json([
-                'bonus' => $bonuses,
-                'username' => "{$user->first_name} {$user->last_name}",
-                'tag' => 'from no date'
-            ], 200);
+        // if ($request->missing('date_from') || $request->missing('date_to')) {
+        //     // find user based on submitted input
+        //     $user = User::where([
+        //         ["first_name","like", "%{$first_name}%"],
+        //         ["last_name", "like", "%{$last_name}%"],
+        //     ])->select('id', 'first_name', 'last_name')->first();
+        //         // find related bonus in bonuses table
+        //     $bonuses = Bonus::where('user_id', $user->id)->get();        
+        //         // return bonuses and username
+        //     return response()->json([
+        //         'bonus' => $bonuses,
+        //         'username' => "{$user->first_name} {$user->last_name}",
+        //         'tag' => 'from no date'
+        //     ], 200);
 
-        } elseif ($request->missing('first_name') || $request->missing('last_name')) {
+        // } elseif ($request->missing('first_name') || $request->missing('last_name')) {
 
-            $bonuses = Bonus::whereBetween('bonus_date', [$date_from, $date_to])->get();
+        //     $bonuses = Bonus::whereBetween('bonus_date', [$date_from, $date_to])->get();
 
-            $ids = $bonuses->pluck('user_id');
+        //     $ids = $bonuses->pluck('user_id');
 
-            $users= User::whereIn('id', $ids)->select('first_name', 'last_name')->get();
+        //     $users= User::whereIn('id', $ids)->select('first_name', 'last_name')->get();
 
-            // foreach ($bonuses as $bonus) {
-            //     return {}
-            // }
+        //     // foreach ($bonuses as $bonus) {
+        //     //     return {}
+        //     // }
 
-            return response([
-                'bonus' => $bonuses,
-                'ids' => $ids,
-                'users' => $users,
-                'tag' => 'from no name'
-            ], 200);
-        }
+        //     return response([
+        //         'bonus' => $bonuses,
+        //         'ids' => $ids,
+        //         'users' => $users,
+        //         'tag' => 'from no name'
+        //     ], 200);
+        // }
 
-        $bonus = DB::table('bonuses')->select('user_id as user_id')->join('users', 'bonuses.user_id', '=', 'users.id');
+        // $bonus = DB::table('bonuses')->select('user_id as user_id')->join('users', 'bonuses.user_id', '=', 'users.id');
+        $bonus = DB::table('bonuses')->whereBetween('bonus_date', [$date_from, $date_to])->join('users', 'users.id', '=', 'bonuses.user_id')->select('bonuses.*','users.first_name', 'users.last_name')->get();
 
-        return $request;
+        return $bonus;
     }
 
     /**
