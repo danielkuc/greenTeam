@@ -39,17 +39,16 @@ class BonusController extends Controller
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
 
-        // DB query
-        // find the first user with matching name in users database.
+        // conditional requests.
         if ($request->missing('date_from') || $request->missing('date_to')) {
-
+            // find user based on submitted input
             $user = User::where([
                 ["first_name","like", "%{$first_name}%"],
                 ["last_name", "like", "%{$last_name}%"],
             ])->select('id', 'first_name', 'last_name')->first();
-
+                // find related bonus in bonuses table
             $bonuses = Bonus::where('user_id', $user->id)->get();        
-
+                // return bonuses and username
             return response()->json([
                 'bonus' => $bonuses,
                 'username' => "{$user->first_name} {$user->last_name}",
@@ -76,14 +75,8 @@ class BonusController extends Controller
             ], 200);
         }
 
-            // return a formatted array with user details and bonus.
-        // return response()->json([
-        //     'bonus' => $bonuses,
-        //     // 'guy' => $guys
-        //     // 'users' => $users,
-        //     // 'userFirstName' => $user->first_name, 
-        //     // 'userLastName' => $user->last_name, 
-        // ], 200);
+        $bonus = DB::table('bonuses')->select('user_id as user_id')->join('users', 'bonuses.user_id', '=', 'users.id');
+
         return $request;
     }
 
