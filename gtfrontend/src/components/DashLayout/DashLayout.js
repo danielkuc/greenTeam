@@ -21,7 +21,7 @@ const DashLayout = () => {
         await axios.get('http://localhost:8000/user-credentials', {withCredentials: true})
         .then(response => 
           {
-            console.log(response);
+            // console.log(response);
             setIsLoggedIn(true);
             setUser(response.data);
             setLoading(false);

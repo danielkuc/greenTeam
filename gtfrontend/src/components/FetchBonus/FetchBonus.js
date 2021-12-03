@@ -8,7 +8,8 @@ import { SubmitButton } from '../../components';
 
 const FetchBonus = () => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [data, setData] = useState([]);
+  // Yup validator
   const validator = yup.object({
     first_name: yup.string(),
     last_name: yup.string(),
@@ -16,12 +17,14 @@ const FetchBonus = () => {
     date_from: yup.date(),
     date_to: yup.date()
   });
-
+// Method  to fetch data from DB
   const handleSUbmit = async (values) => {
     setIsLoading(true)
+    console.log(values)
     try {
       await apiClient.post('request/bonus', values).then(response =>{
-        setIsLoading(false)
+        setIsLoading(false);
+        console.log(response);
         return console.log(response.data);
       })
     } catch (error) {
@@ -49,7 +52,6 @@ const FetchBonus = () => {
               initialValues={{ 
                 first_name:'',
                 last_name:'',
-                date: '',
                 date_from: '',
                 date_to: '',
                }}
@@ -150,6 +152,7 @@ const FetchBonus = () => {
                       </FloatingLabel>  
                     </Form.Group> 
                   </Row>
+
                   <p className="py-1 h5">Search by date</p>
                   <Row md={2}>
                     {/* search by date */}
