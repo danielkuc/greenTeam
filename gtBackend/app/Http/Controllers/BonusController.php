@@ -40,7 +40,9 @@ class BonusController extends Controller
         ->whereBetween('bonus_date', [$date_from, $date_to])
         ->orWhere([
             ["first_name", "like", "%{$first_name}%"],
-            ["last_name", "like", "%{$last_name}%"]
+            ["last_name", "like", "%{$last_name}%"],
+            // ["bonus_date", ">=", $date_from],
+            // ["bonus_date", "=<", $date_to]
         ])
         ->join('users', 'users.id', '=', 'bonuses.user_id')
         ->select('bonuses.*','users.first_name', 'users.last_name')
