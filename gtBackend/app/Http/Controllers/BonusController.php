@@ -36,25 +36,11 @@ class BonusController extends Controller
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
 
-        if ($request->has('first_name') || $request->has('last_name') && $request->missing('date_from')) {
-            $user = User::where([
-                ["first_name", "like", "%{$first_name}%"],
-                ["last_name", "like", "%{$last_name}%"],
-            ])->get();
-
-            return $bonus = Bonus::where('user_id', $user[0]->id)
+            return $bonus = DB::table('bonuses')
+            ->whereBetween('bonus_date', [$date_from, $date_to])
             ->join('users', 'users.id', '=', 'bonuses.user_id')
             ->select('bonuses.bogof', 'bonuses.designer_frames', 'bonuses.coatings', 'bonuses.cx_number', 'bonuses.bonus_date','users.first_name', 'users.last_name')
             ->get();
-        }
-
-
-        $bonus = DB::table('bonuses')
-        ->whereBetween('bonus_date', [$date_from, $date_to])
-        ->join('users', 'users.id', '=', 'bonuses.user_id')
-        ->select('bonuses.bogof', 'bonuses.designer_frames', 'bonuses.coatings', 'bonuses.cx_number', 'bonuses.bonus_date','users.first_name', 'users.last_name')
-        ->get();
-
 
         return response()->json($bonus, 200);;
     }

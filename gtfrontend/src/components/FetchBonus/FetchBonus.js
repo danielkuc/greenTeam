@@ -50,8 +50,8 @@ const FetchBonus = () => {
               validateOnChange={false}
               validateOnBlur={false}
               initialValues={{ 
-                first_name:'',
-                last_name:'',
+                first_name:' ',
+                last_name:' ',
                 date_from: '',
                 date_to: '',
                }}
@@ -153,31 +153,8 @@ const FetchBonus = () => {
                     </Form.Group> 
                   </Row>
 
-                  <p className="py-1 h5">Search by date</p>
-                  <Row md={2}>
-                    {/* search by date */}
-                    <Form.Group as={Col}>
-                      <FloatingLabel
-                        controlId="date"
-                        label="Filter by date"
-                      >
-                        <Form.Control
-                          type="date"
-                          name="date"
-                          placeholder="Filter by date"
-                          value={values.date}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          isInvalid={errors.date}
-                        />
-                        <FormControl.Feedback type="invalid">
-                          {errors.date}
-                        </FormControl.Feedback>
-                      </FloatingLabel>  
-                    </Form.Group>  
-                  </Row>
-
                   <SubmitButton state={isLoading} />
+
                 </Form>
               )}
             </Formik>

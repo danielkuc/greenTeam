@@ -15,9 +15,9 @@ const AddBonus = () => {
   const validator = yup.object({
     cx_number: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer').required('Cx number is required'),
     bonus_date: yup.date().required('Date required'),
-    bogof: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
-    designer_frames: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer'),
-    coatings: yup.number('Must be a number').positive('Must be positive').integer('Must be an Integer')
+    bogof: yup.number('Must be a number').positive().min(0, "Must be positive").integer('Must be an Integer'),
+    designer_frames: yup.number('Must be a number').positive().min(0, "Must be positive").integer('Must be an Integer'),
+    coatings: yup.number('Must be a number').positive().min(0, "Must be positive").integer('Must be an Integer')
   });
 
   const handleSubmit = async (values, {resetForm}) => {
@@ -58,7 +58,7 @@ const AddBonus = () => {
               onSubmit={handleSubmit}
               initialValues={{ 
                 cx_number: '',
-                bonus_date:'0',
+                bonus_date:'0000-00-00',
                 bogof:'0',
                 designer_frames: '0',
                 coatings: '0',
