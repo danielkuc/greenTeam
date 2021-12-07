@@ -19,28 +19,24 @@ class BonusController extends Controller
     public function index(Request $request)
     {
         // get user input and validate it, only accepts required input.
-        $input = $request->only(['first_name', 'last_name', 'date', 'date_from', 'date_to']);
+        $input = $request->only(['date_from', 'date_to']);
         $validator = Validator::make($input, [
-            'first_name'=>'string|nullable',
-            'last_name'=>'string|nullable',
-            'date'=>'date|nullable',
             'date_from'=>'date|nullable',
+            'date_to'=>'date|nullable',
         ]);
         // if validation fails, return an error.
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 403);
         }
         
-        $first_name = $request->input("first_name");
-        $last_name = $request->input("last_name");
         $date_from = $request->input("date_from");
         $date_to = $request->input("date_to");
 
-            return $bonus = DB::table('bonuses')
-            ->whereBetween('bonus_date', [$date_from, $date_to])
-            ->join('users', 'users.id', '=', 'bonuses.user_id')
-            ->select('bonuses.bogof', 'bonuses.designer_frames', 'bonuses.coatings', 'bonuses.cx_number', 'bonuses.bonus_date','users.first_name', 'users.last_name')
-            ->get();
+        return $bonus = DB::table('bonuses')
+        ->whereBetween('bonus_date', [$date_from, $date_to])
+        ->join('users', 'users.id', '=', 'bonuses.user_id')
+        ->select('bonuses.*', 'users.first_name', 'users.last_name')
+        ->get();
 
         return response()->json($bonus, 200);;
     }

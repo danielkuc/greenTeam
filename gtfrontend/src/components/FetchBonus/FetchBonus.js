@@ -11,21 +11,19 @@ const FetchBonus = () => {
   const [data, setData] = useState([]);
   // Yup validator
   const validator = yup.object({
-    first_name: yup.string(),
-    last_name: yup.string(),
     date: yup.date(),
     date_from: yup.date(),
-    date_to: yup.date()
   });
 // Method  to fetch data from DB
   const handleSUbmit = async (values) => {
     setIsLoading(true)
-    console.log(values)
     try {
       await apiClient.post('request/bonus', values).then(response =>{
         setIsLoading(false);
-        console.log(response);
-        return console.log(response.data);
+        setData(response.data);
+        setTimeout(() => {
+          console.log(data);
+        }, 300);
       })
     } catch (error) {
       console.log(error);      
@@ -50,8 +48,6 @@ const FetchBonus = () => {
               validateOnChange={false}
               validateOnBlur={false}
               initialValues={{ 
-                first_name:' ',
-                last_name:' ',
                 date_from: '',
                 date_to: '',
                }}
@@ -66,50 +62,6 @@ const FetchBonus = () => {
                 <Form
                   onSubmit={handleSubmit}
                 >
-                  <p className="py-1 h5">Search by name</p>
-                  <Row md={2}>
-                    {/* search by first name */}
-                    <Form.Group as={Col}>
-                      <FloatingLabel
-                        controlId="first_name"
-                        label="Filter by first name"
-                      >
-                        <Form.Control
-                          type="text"
-                          name="first_name"
-                          placeholder="Filter by first name"
-                          value={values.first_name}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          isInvalid={errors.first_name}
-                        />
-                        <FormControl.Feedback type="invalid">
-                          {errors.first_name}
-                        </FormControl.Feedback>
-                      </FloatingLabel>  
-                    </Form.Group> 
-                    {/* search by last name */}
-                    <Form.Group as={Col}>
-                      <FloatingLabel
-                        controlId="last_name"
-                        label="Filter by last name"
-                      >
-                        <Form.Control
-                          type="text"
-                          name="last_name"
-                          placeholder="Filter by last name"
-                          value={values.last_name}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          isInvalid={errors.last_name}
-                        />
-                        <FormControl.Feedback type="invalid">
-                          {errors.last_name}
-                        </FormControl.Feedback>
-                      </FloatingLabel>  
-                    </Form.Group> 
-                    </Row>
-                    <p className="py-1 h5">Search by date range</p>
                   <Row md={2}>
                     {/* Search by date range  */}
                   <Form.Group as={Col}>
@@ -152,9 +104,7 @@ const FetchBonus = () => {
                       </FloatingLabel>  
                     </Form.Group> 
                   </Row>
-
                   <SubmitButton state={isLoading} />
-
                 </Form>
               )}
             </Formik>
