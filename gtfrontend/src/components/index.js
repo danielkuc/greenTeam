@@ -3,6 +3,7 @@ export { default as AuthLayout } from '../components/AuthLayout';
 export { default as Articles } from '../components/Articles';
 export { default as Banner } from '../components/Banner';
 export { default as BonusLayout } from '../components/BonusLayout';
+export { default as BonusElement } from '../components/BonusElement';
 export { default as DashLayout } from './DashLayout';
 export { default as DisplayModal } from './DisplayModal';
 export { default as FetchBonus} from '../components/FetchBonus';

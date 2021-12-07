@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { Accordion, Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './FetchBonus.styled';
 import apiClient from '../../services/api';
-import { SubmitButton } from '../../components';
+import { SubmitButton, BonusElement } from '../../components';
 
 const FetchBonus = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -111,6 +111,8 @@ const FetchBonus = () => {
           </Accordion.Body>
         </Accordion>
       </CONTAINER>
+
+      <BonusElement />
     </>
   )
 }
