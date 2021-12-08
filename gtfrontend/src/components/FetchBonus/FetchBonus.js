@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik'
-import { Accordion, Row, Col, FloatingLabel, Form, FormControl } from 'react-bootstrap';
+import { Accordion, Row, Col, Dropdown, FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import CONTAINER from './FetchBonus.styled';
 import apiClient from '../../services/api';
 import { SubmitButton, BonusElement } from '../../components';
@@ -20,16 +20,29 @@ const FetchBonus = () => {
     try {
       await apiClient.post('request/bonus', values).then(response =>{
         setIsLoading(false);
-        setData(response.data);
-        setTimeout(() => {
-          console.log(data);
-        }, 300);
-      })
+        const result = response.data.map(obj => ({...obj, bonus_date: new Date(obj['bonus_date'])}));
+        console.log(result);
+        setData(result);
+      });
     } catch (error) {
       console.log(error);      
       isLoading(false);
     }
   }
+
+  const sortArray = type => {
+    // object with values of option JSX element corresponding to properties of objects in the state
+    const types = {
+      idDescending: 'id',
+      idAscending: 'id',
+      2: 'bonus_date'
+    };
+    console.log(type);
+    const sortProperty = types[type];
+    // const sorted = data.sort((a, b) => b[sortProperty] - a[sortProperty]);
+    // console.log(sorted);
+    // setData(sorted);
+  };
 
   return (
     <>
@@ -110,9 +123,17 @@ const FetchBonus = () => {
             </Formik>
           </Accordion.Body>
         </Accordion>
+        <Row className="d-flex justify-content-center">
+          <Col md={6}>
+            <select className="form-control" name="sort" defaultValue="Sort by:" onChange={(e) => sortArray(e.target.value)}>
+                <option value="idDescending">Id descending</option>
+                <option value="idAscending">Id ascending</option>
+                <option value="2">Date</option>
+            </select>
+          </Col>
+        </Row>
       </CONTAINER>
-
-      <BonusElement />
+      {data.map((element, index) => (<BonusElement key={index} bonus={element} />))}
     </>
   )
 }
