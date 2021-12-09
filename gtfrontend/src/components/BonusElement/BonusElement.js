@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { XCircle } from 'react-bootstrap-icons';
 
-const BonusElement = ({bonus: {  bogof, designer_frames, coatings, cx_number, first_name, last_name }}) => {
+const BonusElement = ({bonus: { bonus_date , bogof, designer_frames, coatings, cx_number, first_name, last_name }}) => {
   return (
     <>
       <Row className="my-3">
@@ -10,7 +10,7 @@ const BonusElement = ({bonus: {  bogof, designer_frames, coatings, cx_number, fi
           <Container>
             <Card>
               <Card.Header className="d-inline-flex justify-content-between">
-                {/* Bonus date: {bonus_date} */}
+                Bonus date: {bonus_date}
                 <div>
                   <XCircle size={20}/>
                 </div>
