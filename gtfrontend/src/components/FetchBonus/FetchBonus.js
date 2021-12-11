@@ -12,7 +12,7 @@ const FetchBonus = () => {
   // data state - populated by fetching data from API.
   const [data, setData] = useState([]);
   // state of data filter input fields
-  const[filterInput, setFilterInput] = useState({filterFirstName:'', filterLastName:''});
+  const[filterInput, setFilterInput] = useState({filterFirst:'', filterLast:''});
   // Yup validator
   const validator = yup.object({
     date: yup.date(),
@@ -66,6 +66,10 @@ const FetchBonus = () => {
     console.log(test);
     return setData(sorted);
   };
+
+  const handleChange = ( e=> {
+    setFilterInput(...filterInput, e.target.name = e.target.value);
+  });
 
   return (
     <>
@@ -165,24 +169,33 @@ const FetchBonus = () => {
           <Col md={3}>
             <Form>
             <Form.Group>
-                      <FloatingLabel
-                        controlId="filterFirst"
-                        label="Filter by first name"
-                      >
-                        <Form.Control 
-                          type="text"
-                          name="filterFirst"
-                          placeholder="Bob"
-                          // value={values.email}
-                          // onBlur={handleBlur}
-                          // onChange={handleChange}
-                          // isInvalid={errors.email}
-                        />
-                        <FormControl.Feedback type="invalid">
-                          {/* {errors.email} */}
-                        </FormControl.Feedback>
-                      </FloatingLabel>
-                    </Form.Group>
+              <Form.Control 
+                type="text"
+                name="filterFirst"
+                placeholder="Bob"
+                value={filterInput.filterFirst}
+                // onBlur={handleBlur}
+                onChange={handleChange}
+                // isInvalid={errors.email}
+              />
+              <FormControl.Feedback type="invalid">
+                {/* {errors.email} */}
+              </FormControl.Feedback>
+          </Form.Group>
+            <Form.Group>
+              <Form.Control 
+                type="text"
+                name="filterLast"
+                placeholder="Bob"
+                value={filterInput.filterLast}
+                // onBlur={handleBlur}
+                onChange={handleChange}
+                // isInvalid={errors.email}
+              />
+              <FormControl.Feedback type="invalid">
+                {/* {errors.email} */}
+              </FormControl.Feedback>
+          </Form.Group>
             </Form>
           </Col>
         </Row>
